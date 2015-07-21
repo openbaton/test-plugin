@@ -2,7 +2,7 @@ package org.project.openbaton.clients.interfaces.client.test;
 
 import org.project.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.project.openbaton.catalogue.nfvo.*;
-import org.project.openbaton.clients.interfaces.ClientInterfaces;
+import org.project.openbaton.clients.concretes.AbstractTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -18,7 +18,7 @@ import java.util.Set;
  */
 @Service
 @Scope
-public class TestClient implements ClientInterfaces {
+public class TestClient extends AbstractTest{
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
