@@ -53,6 +53,10 @@ public class TestClient extends AbstractTest{
             Server server = new Server();
             server.setName("server_name");
             server.setExtId("ext_id");
+            DeploymentFlavour flavor = new DeploymentFlavour();
+            flavor.setRam(10);
+            flavor.setVcpus(1);
+            server.setFlavor(flavor);
             add(server);
         }};
 
@@ -187,6 +191,13 @@ public class TestClient extends AbstractTest{
 
     @Override
     public Quota getQuota() {
-        throw new UnsupportedOperationException();
+        Quota quota = new Quota();
+        quota.setCores(99999);
+        quota.setFloatingIps(99999);
+        quota.setInstances(99999);
+        quota.setKeyPairs(999999);
+        quota.setRam(99999999);
+        quota.setTenant("test-tenant");
+        return quota;
     }
 }
