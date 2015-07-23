@@ -58,6 +58,7 @@ public class TestClient extends AbstractTest{
             flavor.setRam(10);
             flavor.setVcpus(1);
             server.setFlavor(flavor);
+            server.setIps(new HashMap<>());
             add(server);
         }};
 
