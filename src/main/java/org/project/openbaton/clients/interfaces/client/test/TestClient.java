@@ -54,7 +54,7 @@ public class TestClient implements ClientInterfaces {
             flavor.setRam(10);
             flavor.setVcpus(1);
             server.setFlavor(flavor);
-            server.setIps(new HashMap<>());
+            server.setIps(new HashMap<String , List<String>>());
             add(server);
         }};
 
@@ -100,7 +100,7 @@ public class TestClient implements ClientInterfaces {
         Server server = new Server();
         server.setName("server_name");
         server.setExtId("ext_id");
-        server.setIps(new HashMap<>());
+        server.setIps(new HashMap<String , List<String>>());
         return server;
     }
 
