@@ -2,11 +2,9 @@ package org.project.openbaton.clients.interfaces.client.test;
 
 import org.project.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.project.openbaton.catalogue.nfvo.*;
-import org.project.openbaton.clients.concretes.AbstractTest;
+import org.project.openbaton.clients.interfaces.ClientInterfaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -16,9 +14,7 @@ import java.util.Set;
 /**
  * Created by lto on 12/05/15.
  */
-@Service
-@Scope
-public class TestClient extends AbstractTest{
+public class TestClient implements ClientInterfaces {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -200,4 +196,11 @@ public class TestClient extends AbstractTest{
         quota.setTenant("test-tenant");
         return quota;
     }
+
+    @Override
+    public String getType() {
+        return "test";
+    }
+
+
 }
