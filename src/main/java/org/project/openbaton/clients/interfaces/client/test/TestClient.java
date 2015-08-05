@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -53,6 +54,7 @@ public class TestClient implements ClientInterfaces {
             flavor.setRam(10);
             flavor.setVcpus(1);
             server.setFlavor(flavor);
+            server.setIps(new HashMap<>());
             add(server);
         }};
 
@@ -98,6 +100,7 @@ public class TestClient implements ClientInterfaces {
         Server server = new Server();
         server.setName("server_name");
         server.setExtId("ext_id");
+        server.setIps(new HashMap<>());
         return server;
     }
 
