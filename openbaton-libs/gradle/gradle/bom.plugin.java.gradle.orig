@@ -20,6 +20,9 @@ task oneJar(type: Jar) {
                 'Main-Class': pluginClass
     }
     baseName = project.name + '-openbaton-plugin'
+<<<<<<< HEAD
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+=======
     doFirst {
         from(configurations.compile.resolve().collect { it.isDirectory() ? it : zipTree(it) }) {
             exclude 'META-INF/*.SF'
@@ -27,6 +30,7 @@ task oneJar(type: Jar) {
             exclude 'META-INF/*.RSA'
         }
     }
+>>>>>>> 8a404621e1bf9531e571ffeef5eada29aa313d4f
     with jar
 }
 
