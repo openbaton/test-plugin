@@ -23,8 +23,6 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 version = '0.5-SNAPSHOT'
-apply from: 'openbaton-libs/gradle/gradle/git.helpers.gradle'
-apply from: 'openbaton-libs/gradle/gradle/command.line.helper.gradle'
 
 apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/command.line.helper.gradle'
 apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/git.helpers.gradle'
