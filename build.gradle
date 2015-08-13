@@ -32,8 +32,9 @@ project.ext {
     applicationVersionFull = "${applicationVersion}${applicationVersionSnapshot}"
     pluginClass = 'org.project.openbaton.clients.interfaces.client.test.TestClient'
 }
-apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/application.java.gradle'
 apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/bom.plugin.java.gradle'
+apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/application.java.gradle'
+apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/run.application.java.gradle'
 
 repositories {
     mavenCentral()
