@@ -50,7 +50,8 @@ project.ext {
 
     applicationVersionSnapshot = (!applicationRelease) ? "+SNAPSHOT.${asUTC(applicationDate, 'yyyyMMdd')}.git${applicationRevision}" : ""
     applicationVersionFull = "${applicationVersion}${applicationVersionSnapshot}"
-    pluginClass = 'org.project.openbaton.clients.interfaces.client.test.TestClient'
+//    pluginClass = 'org.project.openbaton.clients.interfaces.client.test.TestClient'
+    mainClass = 'org.project.openbaton.clients.interfaces.client.test.TestClient'
 }
 apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/bom.plugin.java.gradle'
 apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/application.java.gradle'
@@ -65,6 +66,7 @@ dependencies {
     compile project(":catalogue")
 	
     compile 'org.slf4j:slf4j-api:1.7.12'
+    compile 'org.springframework:spring-jms:' + springVersion
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile("org.mockito:mockito-core:1.9.5")

@@ -2,9 +2,11 @@ package org.project.openbaton.clients.interfaces.client.test;
 
 import org.project.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.project.openbaton.catalogue.nfvo.*;
-import org.project.openbaton.clients.abstraction.SpringClientInterface;
+import org.project.openbaton.clients.interfaces.ClientInterfaces;
+import org.project.openbaton.plugin.main.spring.SpringPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.Set;
 /**
  * Created by lto on 12/05/15.
  */
-public class TestClient extends SpringClientInterface {
+public class TestClient implements ClientInterfaces {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -54,7 +56,7 @@ public class TestClient extends SpringClientInterface {
             flavor.setRam(10);
             flavor.setVcpus(1);
             server.setFlavor(flavor);
-            server.setIps(new HashMap<String , List<String>>());
+            server.setIps(new HashMap<String, List<String>>());
             add(server);
         }};
 
@@ -205,5 +207,8 @@ public class TestClient extends SpringClientInterface {
         return "test";
     }
 
-
+    public static void main(String[] args) {
+        SpringPlugin.setPluginInstance(new TestClient());
+        SpringApplication.run(SpringPlugin.class);
+    }
 }
