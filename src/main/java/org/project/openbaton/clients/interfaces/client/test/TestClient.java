@@ -24,17 +24,17 @@ public class TestClient extends SpringClientInterface {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public Server launchInstance(String name, String image, String flavor, String keypair, Set<String> network, Set<String> secGroup, String userData) {
+    public Server launchInstance(VimInstance vimInstance, String name, String image, String flavor, String keypair, Set<String> network, Set<String> secGroup, String userData) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void init(VimInstance vimInstance) {
-        log.debug("Initilizing testClient");
-    }
+//    @Override
+//    public void init(VimInstance vimInstance) {
+//        log.debug("Initilizing testClient");
+//    }
 
     @Override
-    public List<NFVImage> listImages() {
+    public List<NFVImage> listImages(VimInstance vimInstance) {
         return new ArrayList<NFVImage>(){{
             NFVImage image = new NFVImage();
             image.setExtId("ext_id_1");
@@ -49,7 +49,7 @@ public class TestClient extends SpringClientInterface {
     }
 
     @Override
-    public List<Server> listServer() {
+    public List<Server> listServer(VimInstance vimInstance) {
         return new ArrayList<Server>(){{
             Server server = new Server();
             server.setName("server_name");
@@ -65,7 +65,7 @@ public class TestClient extends SpringClientInterface {
     }
 
     @Override
-    public List<Network> listNetworks() {
+    public List<Network> listNetworks(VimInstance vimInstance) {
         return new ArrayList<Network>(){{
             Network network = new Network();
             network.setExtId("ext_id");
@@ -75,7 +75,7 @@ public class TestClient extends SpringClientInterface {
     }
 
     @Override
-    public List<DeploymentFlavour> listFlavors() {
+    public List<DeploymentFlavour> listFlavors(VimInstance vimInstance) {
         return new ArrayList<DeploymentFlavour>(){{
             DeploymentFlavour deploymentFlavour = new DeploymentFlavour();
             deploymentFlavour.setExtId("ext_id_1");
@@ -95,7 +95,7 @@ public class TestClient extends SpringClientInterface {
     }
 
     @Override
-    public Server launchInstanceAndWait(String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s) {
+    public Server launchInstanceAndWait(VimInstance vimInstance, String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s) {
         try {
             Thread.sleep((long) (Math.random() * 3500));
         } catch (InterruptedException e) {
@@ -118,82 +118,82 @@ public class TestClient extends SpringClientInterface {
     }
 
     @Override
-    public Network createNetwork(Network network) {
+    public Network createNetwork(VimInstance vimInstance, Network network) {
         return network;
     }
 
     @Override
-    public DeploymentFlavour addFlavor(DeploymentFlavour deploymentFlavour) {
+    public DeploymentFlavour addFlavor(VimInstance vimInstance, DeploymentFlavour deploymentFlavour) {
         return deploymentFlavour;
     }
 
     @Override
-    public NFVImage addImage(NFVImage image, InputStream inputStream) {
+    public NFVImage addImage(VimInstance vimInstance, NFVImage image, InputStream inputStream) {
         return image;
     }
 
     @Override
-    public NFVImage updateImage(NFVImage image) {
+    public NFVImage updateImage(VimInstance vimInstance, NFVImage image) {
         return image;
     }
 
     @Override
-    public NFVImage copyImage(NFVImage image, InputStream inputStream) {
+    public NFVImage copyImage(VimInstance vimInstance, NFVImage image, InputStream inputStream) {
         return image;
     }
 
     @Override
-    public boolean deleteImage(NFVImage image) {
+    public boolean deleteImage(VimInstance vimInstance, NFVImage image) {
         return true;
     }
 
     @Override
-    public DeploymentFlavour updateFlavor(DeploymentFlavour deploymentFlavour) {
+    public DeploymentFlavour updateFlavor(VimInstance vimInstance, DeploymentFlavour deploymentFlavour) {
         return deploymentFlavour;
     }
 
     @Override
-    public boolean deleteFlavor(String extId) {
+    public boolean deleteFlavor(VimInstance vimInstance, String extId) {
         return true;
     }
 
     @Override
-    public Subnet createSubnet(Network createdNetwork, Subnet subnet) {
+    public Subnet createSubnet(VimInstance vimInstance, Network createdNetwork, Subnet subnet) {
         return subnet;
     }
 
     @Override
-    public Network updateNetwork(Network network) {
+    public Network updateNetwork(VimInstance vimInstance, Network network) {
         return network;
     }
 
     @Override
-    public Subnet updateSubnet(Network updatedNetwork, Subnet subnet) {
+    public Subnet updateSubnet(VimInstance vimInstance, Network updatedNetwork, Subnet subnet) {
         return subnet;
     }
 
     @Override
-    public List<String> getSubnetsExtIds(String network_extId) {
+    public List<String> getSubnetsExtIds(VimInstance vimInstance, String network_extId) {
         return null;
     }
 
     @Override
-    public boolean deleteSubnet(String existingSubnetExtId) {
+    public boolean deleteSubnet(VimInstance vimInstance, String existingSubnetExtId) {
         return false;
     }
 
     @Override
-    public boolean deleteNetwork(String extId) {
+    public boolean deleteNetwork(VimInstance vimInstance, String extId) {
         return false;
     }
 
     @Override
-    public Network getNetworkById(String id) {
+    public Network getNetworkById(VimInstance vimInstance, String id) {
         return null;
     }
 
     @Override
-    public Quota getQuota() {
+    public Quota getQuota(VimInstance vimInstance) {
         Quota quota = new Quota();
         quota.setCores(99999);
         quota.setFloatingIps(99999);
@@ -205,7 +205,7 @@ public class TestClient extends SpringClientInterface {
     }
 
     @Override
-    public String getType() {
+    public String getType(VimInstance vimInstance) {
         return "test";
     }
 }
