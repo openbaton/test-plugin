@@ -1,4 +1,4 @@
-package org.project.openbaton.clients.interfaces.client.test;
+package org.project.openbaton.plugin.vim.drivers.test;
 
 import org.project.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.project.openbaton.catalogue.nfvo.*;
@@ -35,63 +35,69 @@ public class TestClient extends SpringClientInterface {
 
     @Override
     public List<NFVImage> listImages(VimInstance vimInstance) {
-        return new ArrayList<NFVImage>(){{
-            NFVImage image = new NFVImage();
-            image.setExtId("ext_id_1");
-            image.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
-            add(image);
+        ArrayList<NFVImage> nfvImages = new ArrayList<>();
+        NFVImage image = new NFVImage();
+        image.setExtId("ext_id_1");
+        image.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
+        nfvImages.add(image);
 
-            image = new NFVImage();
-            image.setExtId("ext_id_2");
-            image.setName("image_name_1");
-            add(image);
-        }};
+        image = new NFVImage();
+        image.setExtId("ext_id_2");
+        image.setName("image_name_1");
+        nfvImages.add(image);
+        return nfvImages;
     }
 
     @Override
     public List<Server> listServer(VimInstance vimInstance) {
-        return new ArrayList<Server>(){{
-            Server server = new Server();
-            server.setName("server_name");
-            server.setExtId("ext_id");
-            DeploymentFlavour flavor = new DeploymentFlavour();
-            flavor.setRam(10);
-            flavor.setVcpus(1);
-            server.setFlavor(flavor);
-            server.setIps(new HashMap<String, List<String>>());
-            add(server);
-        }};
+        ArrayList<Server> servers = new ArrayList<>();
+        Server server = new Server();
+        server.setName("server_name");
+        server.setExtId("ext_id");
+        DeploymentFlavour flavor = new DeploymentFlavour();
+        flavor.setRam(10);
+        flavor.setVcpus(1);
+        server.setFlavor(flavor);
+        server.setIps(new HashMap<String, List<String>>());
+        servers.add(server);
+        return servers;
 
     }
 
     @Override
     public List<Network> listNetworks(VimInstance vimInstance) {
-        return new ArrayList<Network>(){{
-            Network network = new Network();
-            network.setExtId("ext_id");
-            network.setName("network_name");
-            add(network);
-        }};
+        ArrayList<Network> networks = new ArrayList<>();
+        Network network = new Network();
+        network.setExtId("ext_id");
+        network.setName("network_name");
+        networks.add(network);
+        return networks;
     }
 
     @Override
     public List<DeploymentFlavour> listFlavors(VimInstance vimInstance) {
-        return new ArrayList<DeploymentFlavour>(){{
-            DeploymentFlavour deploymentFlavour = new DeploymentFlavour();
-            deploymentFlavour.setExtId("ext_id_1");
-            deploymentFlavour.setFlavour_key("flavor_name");
-            add(deploymentFlavour);
+        ArrayList<DeploymentFlavour> deploymentFlavours = new ArrayList<>();
+        DeploymentFlavour deploymentFlavour = new DeploymentFlavour();
+        deploymentFlavour.setExtId("ext_id_1");
+        deploymentFlavour.setFlavour_key("flavor_name");
+        deploymentFlavours.add(deploymentFlavour);
 
-            deploymentFlavour = new DeploymentFlavour();
-            deploymentFlavour.setExtId("ext_id_2");
-            deploymentFlavour.setFlavour_key("m1.tiny");
-            add(deploymentFlavour);
+        deploymentFlavour = new DeploymentFlavour();
+        deploymentFlavour.setExtId("ext_id_6");
+        deploymentFlavour.setFlavour_key("m1.nano");
+        deploymentFlavours.add(deploymentFlavour);
 
-            deploymentFlavour = new DeploymentFlavour();
-            deploymentFlavour.setExtId("ext_id_3");
-            deploymentFlavour.setFlavour_key("m1.small");
-            add(deploymentFlavour);
-        }};
+        deploymentFlavour = new DeploymentFlavour();
+        deploymentFlavour.setExtId("ext_id_2");
+        deploymentFlavour.setFlavour_key("m1.tiny");
+        deploymentFlavours.add(deploymentFlavour);
+
+        deploymentFlavour = new DeploymentFlavour();
+        deploymentFlavour.setExtId("ext_id_3");
+        deploymentFlavour.setFlavour_key("m1.small");
+
+        deploymentFlavours.add(deploymentFlavour);
+        return deploymentFlavours;
     }
 
     @Override
