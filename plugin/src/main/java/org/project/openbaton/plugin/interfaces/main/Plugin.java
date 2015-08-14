@@ -10,6 +10,8 @@ import org.project.openbaton.plugin.interfaces.agents.PluginSender;
 import org.project.openbaton.plugin.utils.AgentBroker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.jms.MessageListener;
 import java.io.IOException;

@@ -8,7 +8,8 @@ import org.project.openbaton.plugin.interfaces.main.Plugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,8 +22,10 @@ import org.springframework.jms.config.SimpleJmsListenerEndpoint;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.annotation.PostConstruct;
-import javax.jms.*;
-import java.io.Serializable;
+import javax.jms.ConnectionFactory;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.ObjectMessage;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -31,7 +34,7 @@ import java.lang.reflect.InvocationTargetException;
 @SpringBootApplication
 @ComponentScan(basePackages = "org.project.openbaton")
 @EnableJms
-public class SpringPlugin extends Plugin implements MessageListener, JmsListenerConfigurer {
+public class SpringPlugin extends Plugin implements JmsListenerConfigurer {
 
     @Autowired
     private JmsTemplate jmsTemplate;
@@ -66,17 +69,6 @@ public class SpringPlugin extends Plugin implements MessageListener, JmsListener
         endpoint.setConcurrency(concurrency);
         endpoint.setId(String.valueOf(Thread.currentThread().getId()));
         registrar.registerEndpoint(endpoint);
-    }
-
-    private MessageCreator getObjectMessageCreator(final Serializable message) {
-        MessageCreator messageCreator = new MessageCreator() {
-            @Override
-            public Message createMessage(Session session) throws JMSException {
-                ObjectMessage objectMessage = session.createObjectMessage(message);
-                return objectMessage;
-            }
-        };
-        return messageCreator;
     }
 
     @Override
