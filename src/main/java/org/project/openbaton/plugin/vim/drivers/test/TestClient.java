@@ -115,7 +115,7 @@ public class TestClient implements ClientInterfaces {
     }
 
     @Override
-    public void deleteServerByIdAndWait(String id) {
+    public void deleteServerByIdAndWait(VimInstance vimInstance, String id) {
         try {
             Thread.sleep((long) (Math.random() * 1500));
         } catch (InterruptedException e) {
