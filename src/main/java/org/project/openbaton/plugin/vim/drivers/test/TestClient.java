@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2015. Fraunhofer FOKUS
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.project.openbaton.plugin.vim.drivers.test;
 
 import org.project.openbaton.catalogue.mano.common.DeploymentFlavour;
@@ -16,6 +31,19 @@ import java.util.Set;
 
 /**
  * Created by lto on 12/05/15.
+ *
+ * This class represents a Vim Driver plugin. As vim driver, it must implement the interface {@Link ClientInterfaces}.
+ * This is just an example that can be used to create a OpenBaton plugin. The basic concept is shared by all the plugins.
+ *
+ * The plugin class must be annotated as @Component (at least) and implement the specific interface.
+ * There must be a configuration file in the classpath called plugin.conf.properties that contains:
+ *
+ *  *) sender-type = the type of the sender (default and unique for now: JMS)
+ *  *) receiver-type = the type of the receiver (default and unique for now: JMS)
+ *  *) type = the type of the plugin (test, openstack, amazon ...)
+ *  *) endpoint = the endpoint of the plugin (i.e. queue name)
+ *  *) concurrency = the concurrency of the receiver (default: 1)
+ *
  */
 @Service
 @Scope("prototype")
