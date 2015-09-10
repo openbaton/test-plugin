@@ -26,13 +26,11 @@ import org.project.openbaton.catalogue.nfvo.*;
 import org.project.openbaton.clients.exceptions.VimDriverException;
 import org.project.openbaton.exceptions.VimException;
 import org.project.openbaton.nfvo.vim_interfaces.vim.Vim;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -43,13 +41,11 @@ import java.util.concurrent.Future;
  */
 @Service
 @Scope("prototype")
-@ComponentScan(basePackages = "org.project.openbaton.clients")
 public class OpenstackVIM extends Vim {// TODO and so on...
 
-    @PostConstruct
-    private void init() {
-        String name = "openstack-plugin";
-        super.init(name);
+
+    public OpenstackVIM(String name, int port) {
+        super(name, port);
     }
 
     @Override
@@ -280,8 +276,10 @@ public class OpenstackVIM extends Vim {// TODO and so on...
     @Async
     public Future<String> allocate(VirtualDeploymentUnit vdu, VirtualNetworkFunctionRecord vnfr, VNFComponent vnfComponent) throws VimDriverException, VimException {
         VimInstance vimInstance = vdu.getVimInstance();
-        log.trace("Initializing " + vimInstance);
+        log.debug("Initializing " + vimInstance.toString());
         log.debug("initialized VimInstance");
+        log.debug("VDU is : " + vdu.toString());
+        log.debug("VNFR is : " + vnfr.toString());
         /**
          *  *) choose image
          *  *) ...?
@@ -294,9 +292,10 @@ public class OpenstackVIM extends Vim {// TODO and so on...
             networks.add(vnfdConnectionPoint.getExtId());
 
         String flavorExtId = getFlavorExtID(vnfr.getDeployment_flavour_key(), vimInstance);
-        String hostname = vdu.getHostname() /*+ "-" + vnfComponent.getId().substring(0,4)*/;
+        vdu.setHostname(vnfr.getName());
+        String hostname = vdu.getHostname() + "-" + ((int)(Math.random()*1000));
 
-        log.trace("Params are: hostname:" + hostname + " - " + image + " - " + flavorExtId + " - " + vimInstance.getKeyPair() + " - " + networks + " - " + vimInstance.getSecurityGroups());
+        log.debug("Params are: hostname:" + hostname + " - " + image + " - " + flavorExtId + " - " + vimInstance.getKeyPair() + " - " + networks + " - " + vimInstance.getSecurityGroups());
         Server server;
         try {
             server = client.launchInstanceAndWait(vimInstance, hostname, image, flavorExtId, vimInstance.getKeyPair(), networks, vimInstance.getSecurityGroups(), "#userdata");
