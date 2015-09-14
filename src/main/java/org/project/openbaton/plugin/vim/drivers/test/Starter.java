@@ -16,22 +16,22 @@
 package org.project.openbaton.plugin.vim.drivers.test;
 
 import org.project.openbaton.plugin.PluginStarter;
-
-import java.io.IOException;
-import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by lto on 10/09/15.
  */
 public class Starter {
+
+    private static Logger log = LoggerFactory.getLogger(PluginStarter.class);
+
     public static void main(String[] args) {
-        Properties properties = new Properties();
-        try {
-            properties.load(Starter.class.getResourceAsStream("/plugin.conf.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        PluginStarter.run(TestClient.class, "test-plugin", properties.getProperty("registry-ip", "localhost"));
+        log.info("params are: pluginName registryIp registryPort\ndefault is test localhost 1099");
+
+        if (args.length > 1)
+            PluginStarter.run(TestClient.class, args[0] ,args[1], Integer.parseInt(args[2]));
+        else
+            PluginStarter.run(TestClient.class, "test", "localhost");
     }
 }
