@@ -24,13 +24,13 @@ import org.slf4j.LoggerFactory;
  */
 public class Starter {
 
-    private static Logger log = LoggerFactory.getLogger(PluginStarter.class);
+    private static Logger log = LoggerFactory.getLogger(Starter.class);
 
     public static void main(String[] args) {
         log.info("params are: pluginName registryIp registryPort\ndefault is test localhost 1099");
 
         if (args.length > 1)
-            PluginStarter.run(TestClient.class, args[0] ,args[1], Integer.parseInt(args[2]));
+            PluginStarter.run(TestClient.class, args[0], args[1], Integer.parseInt(args[2]));
         else
             PluginStarter.run(TestClient.class, "test", "localhost");
     }
