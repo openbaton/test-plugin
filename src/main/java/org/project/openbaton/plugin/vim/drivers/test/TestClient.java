@@ -17,6 +17,7 @@ package org.project.openbaton.plugin.vim.drivers.test;
 
 import org.project.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.project.openbaton.catalogue.nfvo.*;
+import org.project.openbaton.clients.exceptions.VimDriverException;
 import org.project.openbaton.clients.interfaces.ClientInterfaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -140,6 +142,11 @@ public class TestClient implements ClientInterfaces {
         server.setExtId("ext_id");
         server.setIps(new HashMap<String , List<String>>());
         return server;
+    }
+
+    @Override
+    public Server launchInstanceAndWait(VimInstance vimInstance, String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s, boolean floatingIp) throws VimDriverException, RemoteException {
+        return launchInstanceAndWait(vimInstance, hostname, image, extId, keyPair, networks, securityGroups, s, false);
     }
 
     @Override
