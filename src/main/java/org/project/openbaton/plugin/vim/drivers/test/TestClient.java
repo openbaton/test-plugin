@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -169,7 +168,7 @@ public class TestClient implements ClientInterfaces {
     }
 
     @Override
-    public NFVImage addImage(VimInstance vimInstance, NFVImage image, InputStream inputStream) {
+    public NFVImage addImage(VimInstance vimInstance, NFVImage image, byte[] imageFile) throws RemoteException {
         return image;
     }
 
@@ -179,7 +178,7 @@ public class TestClient implements ClientInterfaces {
     }
 
     @Override
-    public NFVImage copyImage(VimInstance vimInstance, NFVImage image, InputStream inputStream) {
+    public NFVImage copyImage(VimInstance vimInstance, NFVImage image, byte[] imageFile) throws RemoteException {
         return image;
     }
 
