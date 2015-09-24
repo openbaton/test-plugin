@@ -1,8 +1,17 @@
-/*#############################################################################
- # Copyright (c) 2015.                                                        #
- #                                                                            #
- # This file is part of the OpenSDNCore project.                              #
- #############################################################################*/
+/*
+ * Copyright (c) 2015 Fraunhofer FOKUS
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.project.openbaton.catalogue.mano.record;
 
@@ -10,9 +19,8 @@ import org.project.openbaton.catalogue.mano.common.*;
 import org.project.openbaton.catalogue.util.IdGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
-
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Created by lto on 06/02/15.
@@ -22,10 +30,10 @@ import java.io.Serializable;
 @Entity
 public class NetworkServiceRecord implements Serializable{
     @Id
-    private String id = IdGenerator.createUUID();
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private String id;
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<AutoScalePolicy> auto_scale_policy;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<ConnectionPoint> connection_point;
     /**
      * Monitoring parameter used in this instance.
@@ -36,11 +44,11 @@ public class NetworkServiceRecord implements Serializable{
      * References the nsd:service_deployment_flavour used to instantiate this Network Service instance.
      * */
 
-    @OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.REFRESH)
      private NetworkServiceDeploymentFlavour service_deployment_flavour;
     private String vendor;
     private String version;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<VirtualLinkRecord> vlr;
 
     @OneToMany(cascade = {/*CascadeType.PERSIST, CascadeType.MERGE*/ CascadeType.ALL}, fetch = FetchType.EAGER)
@@ -49,16 +57,16 @@ public class NetworkServiceRecord implements Serializable{
     @OneToMany(cascade = {/*CascadeType.PERSIST, CascadeType.MERGE*/ CascadeType.ALL}, fetch = FetchType.EAGER)
     private Set<VNFRecordDependency> vnf_dependency;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<LifecycleEvent> lifecycle_event;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<VNFForwardingGraphRecord> vnffgr;
     /**
      * At least one
      * */
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<PhysicalNetworkFunctionRecord> pnfr;
     /**
      * The reference to the Network Service Descriptor used to instantiate this Network Service.
@@ -97,7 +105,7 @@ public class NetworkServiceRecord implements Serializable{
     /**
      * Record of significant Network Service lifecycle events.
      * */
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<LifecycleEvent> lifecycle_event_history;
     /**
      * Record of detailed operational events.
@@ -106,6 +114,15 @@ public class NetworkServiceRecord implements Serializable{
     private String audit_log;
     
     private String name;
+
+    public NetworkServiceRecord() {
+
+    }
+
+    @PrePersist
+    public void ensureId(){
+        id=IdGenerator.createUUID();
+    }
 
     public String getId() {
         return id;
@@ -267,16 +284,12 @@ public class NetworkServiceRecord implements Serializable{
         this.audit_log = audit_log;
     }
 
-    public NetworkServiceRecord() {
-
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override

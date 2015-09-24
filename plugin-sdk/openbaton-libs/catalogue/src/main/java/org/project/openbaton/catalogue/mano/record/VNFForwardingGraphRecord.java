@@ -1,15 +1,24 @@
-/*#############################################################################
- # Copyright (c) 2015.                                                        #
- #                                                                            #
- # This file is part of the OpenSDNCore project.                              #
- #############################################################################*/
+/*
+ * Copyright (c) 2015 Fraunhofer FOKUS
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.project.openbaton.catalogue.mano.record;
 
 import org.project.openbaton.catalogue.mano.common.LifecycleEvent;
 import org.project.openbaton.catalogue.mano.descriptor.NetworkForwardingPath;
-import org.project.openbaton.catalogue.mano.descriptor.VNFForwardingGraphDescriptor;
 import org.project.openbaton.catalogue.mano.descriptor.VNFDConnectionPoint;
+import org.project.openbaton.catalogue.mano.descriptor.VNFForwardingGraphDescriptor;
 import org.project.openbaton.catalogue.util.IdGenerator;
 
 import javax.persistence.*;
@@ -24,7 +33,7 @@ import java.util.Set;
 @Entity
 public class VNFForwardingGraphRecord implements Serializable{
     @Id
-    private String id = IdGenerator.createUUID();
+    private String id;
     /**
      * Record of the VNFFGD (vnffgd:id) used to instantiate this VNFFG
      * */
@@ -96,6 +105,10 @@ public class VNFForwardingGraphRecord implements Serializable{
     public VNFForwardingGraphRecord() {
     }
 
+    @PrePersist
+    public void ensureId(){
+        id=IdGenerator.createUUID();
+    }
     public String getId() {
         return id;
     }

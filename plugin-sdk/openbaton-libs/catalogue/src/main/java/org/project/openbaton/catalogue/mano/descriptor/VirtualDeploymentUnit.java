@@ -1,13 +1,24 @@
-/*#############################################################################
- # Copyright (c) 2015.                                                        #
- #                                                                            #
- # This file is part of the OpenSDNCore project.                              #
- #############################################################################*/
+/*
+ * Copyright (c) 2015 Fraunhofer FOKUS
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package org.project.openbaton.catalogue.mano.descriptor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.project.openbaton.catalogue.mano.common.HighAvailability;
 import org.project.openbaton.catalogue.mano.common.LifecycleEvent;
+import org.project.openbaton.catalogue.mano.record.VNFCInstance;
 import org.project.openbaton.catalogue.nfvo.VimInstance;
 import org.project.openbaton.catalogue.util.IdGenerator;
 
@@ -17,74 +28,94 @@ import java.util.Set;
 
 /**
  * Created by lto on 06/02/15.
- *
+ * <p/>
  * Based on ETSI GS NFV-MAN 001 V1.1.1 (2014-12)
  */
 @Entity
-public class VirtualDeploymentUnit implements Serializable{
-	@Id
-    private String id = IdGenerator.createUUID();
-	@Version
-	private int version = 0;
+public class VirtualDeploymentUnit implements Serializable {
+    @Id
+    private String id;
+    @Version
+    private int version = 0;
     /**
      * This provides a reference to a VM image
      * NOTE: A cardinality of zero allows for creating empty virtualisation containers as per (ETSI GS NFV-SWA 001 [i.8]).
-     * */
-    @ElementCollection(fetch=FetchType.EAGER)
+     */
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> vm_image;
     /**
      * Describe the required computation resources characteristics (e.g. processing power, number of virtual CPUs, etc.),
      * including Key Quality Indicators (KQIs) for performance and reliability/availability.
-     * */
+     */
     private String computation_requirement;
     /**
      * This represents the virtual memory needed for the VDU.
-     * */
+     */
     private String virtual_memory_resource_element;
     /**
      * This represents the requirements in terms of the virtual network bandwidth needed for the VDU.
-     * */
+     */
     private String virtual_network_bandwidth_resource;
     /**
      * Defines VNF component functional scripts/workflows for specific lifecycle events(e.g. initialization, termination,
      * graceful shutdown, scaling out/in).
-     * */
-    @OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+     */
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     private Set<LifecycleEvent> lifecycle_event;
     /**
      * Placeholder for other constraints.
-     * */
+     */
     private String vdu_constraint;
     /**
      * Defines redundancy model to ensure high availability examples include: ActiveActive: Implies that two instance of
      * the same VDU will co-exists with continuous data synchronization. ActivePassive: Implies that two instance of
      * the same VDU will co-exists without any data synchronization.
-     * */
+     */
     @Enumerated(EnumType.STRING)
     private HighAvailability high_availability;
     /**
      * Defines minimum and maximum number of instances which can be created to support scale out/in.
-     * */
+     */
     private int scale_in_out;
     /**
      * Contains information that is distinct for each VNFC created based on this VDU.
-     * */
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+     */
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<VNFComponent> vnfc;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private Set<VNFCInstance> vnfc_instance;
+
     /**
      * Monitoring parameter, which can be tracked for a VNFC based on this VDU. Examples include: memory-consumption,
      * CPU-utilisation, bandwidth-consumption, VNFC downtime, etc.
-     * */
-    @ElementCollection(fetch=FetchType.EAGER)
+     */
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> monitoring_parameter;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH /*TODO sure about this?*/})
     private VimInstance vimInstance;
+
     private String hostname;
 
-    private String extId;
+    @Column(nullable = false)
+    private String vimInstanceName;
 
     public VirtualDeploymentUnit() {
+    }
+
+    public Set<VNFCInstance> getVnfc_instance() {
+        return vnfc_instance;
+    }
+
+    public void setVnfc_instance(Set<VNFCInstance> vnfc_instance) {
+        this.vnfc_instance = vnfc_instance;
+    }
+
+    @PrePersist
+    public void ensureId() {
+        id = IdGenerator.createUUID();
     }
 
     public String getId() {
@@ -96,14 +127,14 @@ public class VirtualDeploymentUnit implements Serializable{
     }
 
     public int getVersion() {
-		return version;
-	}
+        return version;
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
-	public Set<String> getVm_image() {
+    public Set<String> getVm_image() {
         return vm_image;
     }
 
@@ -187,7 +218,6 @@ public class VirtualDeploymentUnit implements Serializable{
     public String toString() {
         return "VirtualDeploymentUnit{" +
                 "id='" + id + '\'' +
-                ", extId=" + extId +
                 ", version=" + version +
                 ", vm_image=" + vm_image +
                 ", computation_requirement='" + computation_requirement + '\'' +
@@ -198,6 +228,9 @@ public class VirtualDeploymentUnit implements Serializable{
                 ", high_availability=" + high_availability +
                 ", scale_in_out=" + scale_in_out +
                 ", vnfc=" + vnfc +
+                ", hostname=" + hostname +
+                ", vnfc_instance=" + vnfc_instance +
+                ", vimInstanceName=" + vimInstanceName +
                 ", monitoring_parameter=" + monitoring_parameter +
                 '}';
     }
@@ -218,11 +251,11 @@ public class VirtualDeploymentUnit implements Serializable{
         this.hostname = hostname;
     }
 
-    public String getExtId() {
-        return extId;
+    public String getVimInstanceName() {
+        return vimInstanceName;
     }
 
-    public void setExtId(String extId) {
-        this.extId = extId;
+    public void setVimInstanceName(String vimInstanceName) {
+        this.vimInstanceName = vimInstanceName;
     }
 }

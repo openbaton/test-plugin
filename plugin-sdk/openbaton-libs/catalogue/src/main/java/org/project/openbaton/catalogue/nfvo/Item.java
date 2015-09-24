@@ -1,18 +1,35 @@
+/*
+ * Copyright (c) 2015 Fraunhofer FOKUS
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.project.openbaton.catalogue.nfvo;
 
 import org.project.openbaton.catalogue.util.IdGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Version;
+import java.io.Serializable;
 
 /**
  * Created by lto on 05/08/15.
  */
 @Entity
-public class Item {
+public class Item implements Serializable{
     @Id
-    private String id= IdGenerator.createUUID();
+    private String id;
     @Version
     private int version = 0;
 
@@ -20,7 +37,7 @@ public class Item {
 
     private String hostExtId;
 
-    private String vduId;
+    private String vnfcInstanceId;
     private String lastValue;
     private String value;
 
@@ -34,7 +51,9 @@ public class Item {
                 ", version=" + version +
                 ", metric='" + metric + '\'' +
                 ", hostExtId='" + hostExtId + '\'' +
-                ", vduId='" + vduId + '\'' +
+                ", vnfcInstanceId='" + vnfcInstanceId + '\'' +
+                ", lastValue='" + lastValue + '\'' +
+                ", value='" + value + '\'' +
                 '}';
     }
 
@@ -44,6 +63,11 @@ public class Item {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @PrePersist
+    public void ensureId(){
+        id=IdGenerator.createUUID();
     }
 
     public int getVersion() {
@@ -70,27 +94,27 @@ public class Item {
         this.hostExtId = hostExtId;
     }
 
-    public String getVduId() {
-        return vduId;
+    public String getVnfcInstanceId() {
+        return vnfcInstanceId;
     }
 
-    public void setVduId(String vduId) {
-        this.vduId = vduId;
-    }
-
-    public void setLastValue(String lastValue) {
-        this.lastValue = lastValue;
+    public void setVnfcInstanceId(String vduId) {
+        this.vnfcInstanceId = vnfcInstanceId;
     }
 
     public String getLastValue() {
         return lastValue;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setLastValue(String lastValue) {
+        this.lastValue = lastValue;
     }
 
     public String getValue() {
         return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

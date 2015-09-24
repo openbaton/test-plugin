@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2015 Fraunhofer FOKUS
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.project.openbaton.catalogue.nfvo;
 
 import org.project.openbaton.catalogue.util.IdGenerator;
@@ -12,9 +27,9 @@ import java.util.Set;
 @Entity
 public class Network implements Serializable {
     @Id
-    private String id = IdGenerator.createUUID();;
+    private String id;
     @Version
-    private static int version = 0;
+    private int version = 0;
     private String name;
     private String extId;
     private Boolean external = false;
@@ -23,6 +38,14 @@ public class Network implements Serializable {
     private Set<Subnet> subnets;
 
     public Network(){
+    }
+
+    public Boolean getExternal() {
+        return external;
+    }
+
+    public void setExternal(Boolean external) {
+        this.external = external;
     }
 
     @Override
@@ -37,6 +60,11 @@ public class Network implements Serializable {
                 '}';
     }
 
+    @PrePersist
+    public void ensureId(){
+        id=IdGenerator.createUUID();
+    }
+
     public String getId() {
         return id;
     }
@@ -45,12 +73,12 @@ public class Network implements Serializable {
         this.id = id;
     }
 
-    public static int getVersion() {
+    public int getVersion() {
         return version;
     }
 
-    public static void setVersion(int version) {
-        Network.version = version;
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public String getName() {
@@ -71,10 +99,6 @@ public class Network implements Serializable {
 
     public Boolean isExternal() {
         return external;
-    }
-
-    public void setExternal(Boolean external) {
-        this.external = external;
     }
 
     public Boolean isShared() {
