@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-package org.project.openbaton.plugin.vim.drivers.test;
+package org.openbaton.plugin.vim.drivers.test;
 
-import org.project.openbaton.catalogue.mano.common.DeploymentFlavour;
-import org.project.openbaton.catalogue.nfvo.*;
-import org.project.openbaton.clients.exceptions.VimDriverException;
-import org.project.openbaton.clients.interfaces.ClientInterfaces;
+import org.openbaton.catalogue.mano.common.DeploymentFlavour;
+import org.openbaton.catalogue.nfvo.*;
+import org.openbaton.vim.drivers.exceptions.VimDriverException;
+import org.openbaton.vim.drivers.interfaces.ClientInterfaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;

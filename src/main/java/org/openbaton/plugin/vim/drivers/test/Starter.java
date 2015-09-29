@@ -13,9 +13,9 @@
  * limitations under the License.
  */
 
-package org.project.openbaton.plugin.vim.drivers.test;
+package org.openbaton.plugin.vim.drivers.test;
 
-import org.project.openbaton.plugin.PluginStarter;
+import org.openbaton.plugin.PluginStarter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
