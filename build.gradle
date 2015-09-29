@@ -49,7 +49,7 @@ project.ext {
     applicationVersionSnapshot = (!applicationRelease) ? "+SNAPSHOT.${asUTC(applicationDate, 'yyyyMMdd')}.git${applicationRevision}" : ""
     applicationVersionFull = "${applicationVersion}${applicationVersionSnapshot}"
 
-    mainClass = 'org.project.openbaton.plugin.vim.drivers.test.Starter'
+    mainClass = 'org.openbaton.plugin.vim.drivers.test.Starter'
 }
 apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/bom.plugin.java.gradle'
 apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/application.java.gradle'
