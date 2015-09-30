@@ -13,19 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-plugins {
-    id 'net.researchgate.release' version '2.1.2'
-}
 
-apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/git.release.gradle'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 version = '0.5-SNAPSHOT'
 
-apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/command.line.helper.gradle'
-apply from: 'plugin-sdk/openbaton-libs/gradle/gradle/git.helpers.gradle'
 
 project.ext {
     //------------------------------------------------//
@@ -41,13 +35,6 @@ project.ext {
      */
     applicationVersion = version
     applicationVersionDebian = "1";
-
-    applicationRelease = isApplicationRelease()
-    applicationDate = new Date()
-    applicationRevision = getRevision()
-
-    applicationVersionSnapshot = (!applicationRelease) ? "+SNAPSHOT.${asUTC(applicationDate, 'yyyyMMdd')}.git${applicationRevision}" : ""
-    applicationVersionFull = "${applicationVersion}${applicationVersionSnapshot}"
 
     mainClass = 'org.openbaton.plugin.vim.drivers.test.Starter'
 }

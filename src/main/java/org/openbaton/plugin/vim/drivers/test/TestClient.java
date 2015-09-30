@@ -21,8 +21,6 @@ import org.openbaton.vim.drivers.exceptions.VimDriverException;
 import org.openbaton.vim.drivers.interfaces.ClientInterfaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -46,8 +44,6 @@ import java.util.Set;
  *  *) concurrency = the concurrency of the receiver (default: 1)
  *
  */
-@Service
-@Scope("prototype")
 public class TestClient implements ClientInterfaces {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
