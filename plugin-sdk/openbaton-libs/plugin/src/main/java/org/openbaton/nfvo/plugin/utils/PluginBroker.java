@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package org.openbaton.plugin.utils;
+package org.openbaton.nfvo.plugin.utils;
 
 import java.rmi.NotBoundException;
 import java.rmi.Remote;

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package org.openbaton.plugin.utils;
+package org.openbaton.nfvo.plugin.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
