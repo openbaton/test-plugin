@@ -23,10 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by lto on 12/05/15.
@@ -54,7 +51,7 @@ public class TestClient extends VimDriver {
 
     @Override
     public Server launchInstance(VimInstance vimInstance, String name, String image, String flavor, String keypair, Set<String> network, Set<String> secGroup, String userData) {
-        throw new UnsupportedOperationException();
+        return createServer();
     }
 
     @Override
@@ -125,22 +122,22 @@ public class TestClient extends VimDriver {
     }
 
     @Override
-    public Server launchInstanceAndWait(VimInstance vimInstance, String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s) {
+    public Server launchInstanceAndWait(VimInstance vimInstance, String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s) throws RemoteException, VimDriverException {
+        return launchInstanceAndWait(vimInstance, hostname, image, extId, keyPair, networks, securityGroups, s, null);
+    }
+
+    @Override
+    public Server launchInstanceAndWait(VimInstance vimInstance, String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s, Map<String, String> floatingIps) throws VimDriverException, RemoteException {
         try {
             Thread.sleep((long) (Math.random() * 3500));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Server server = new Server();
-        server.setName("server_name");
-        server.setExtId("ext_id");
-        server.setIps(new HashMap<String , List<String>>());
-        return server;
-    }
-
-    @Override
-    public Server launchInstanceAndWait(VimInstance vimInstance, String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s, boolean floatingIp) throws VimDriverException, RemoteException {
-        return launchInstanceAndWait(vimInstance, hostname, image, extId, keyPair, networks, securityGroups, s, false);
+//        Server server = new Server();
+//        server.setName("server_name");
+//        server.setExtId("ext_id");
+//        server.setIps(new HashMap<String , List<String>>());
+        return createServer();
     }
 
     @Override
@@ -212,28 +209,59 @@ public class TestClient extends VimDriver {
         return subnet;
     }
 
-    @Override
+    @Override // TODO
     public List<String> getSubnetsExtIds(VimInstance vimInstance, String network_extId) {
         return null;
     }
 
     @Override
     public boolean deleteSubnet(VimInstance vimInstance, String existingSubnetExtId) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean deleteNetwork(VimInstance vimInstance, String extId) {
-        return false;
+        return true;
     }
 
     @Override
     public Network getNetworkById(VimInstance vimInstance, String id) {
-        return null;
+        return createNetwork();
     }
 
     @Override
     public Quota getQuota(VimInstance vimInstance) {
+        return createQuota();
+    }
+
+    @Override
+    public String getType(VimInstance vimInstance) {
+        return "test";
+    }
+
+
+
+
+
+
+
+
+
+
+    // TODO
+    private Server createServer() {
+        Server server = new Server();
+        server.setName("server_name");
+        server.setExtId("ext_id");
+        server.setIps(new HashMap<String , List<String>>());
+        return server;
+    }
+    // TODO
+    private Network createNetwork() {
+        return new Network();
+    }
+    // TODO
+    private Quota createQuota() {
         Quota quota = new Quota();
         quota.setCores(99999);
         quota.setFloatingIps(99999);
@@ -244,8 +272,4 @@ public class TestClient extends VimDriver {
         return quota;
     }
 
-    @Override
-    public String getType(VimInstance vimInstance) {
-        return "test";
-    }
 }
