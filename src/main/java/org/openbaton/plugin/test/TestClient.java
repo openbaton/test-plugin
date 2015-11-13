@@ -88,10 +88,7 @@ public class TestClient extends VimDriver {
     @Override
     public List<Network> listNetworks(VimInstance vimInstance) {
         ArrayList<Network> networks = new ArrayList<>();
-        Network network = new Network();
-        network.setExtId("ext_id");
-        network.setName("network_name");
-        networks.add(network);
+        networks.add(createNetwork());
         return networks;
     }
 
@@ -133,10 +130,6 @@ public class TestClient extends VimDriver {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        Server server = new Server();
-//        server.setName("server_name");
-//        server.setExtId("ext_id");
-//        server.setIps(new HashMap<String , List<String>>());
         return createServer();
     }
 
@@ -209,9 +202,9 @@ public class TestClient extends VimDriver {
         return subnet;
     }
 
-    @Override // TODO
+    @Override
     public List<String> getSubnetsExtIds(VimInstance vimInstance, String network_extId) {
-        return null;
+        return new ArrayList<String>();
     }
 
     @Override
@@ -248,7 +241,7 @@ public class TestClient extends VimDriver {
 
 
 
-    // TODO
+
     private Server createServer() {
         Server server = new Server();
         server.setName("server_name");
@@ -256,11 +249,15 @@ public class TestClient extends VimDriver {
         server.setIps(new HashMap<String , List<String>>());
         return server;
     }
-    // TODO
+
     private Network createNetwork() {
-        return new Network();
+        Network network = new Network();
+        network.setName("network_name");
+        network.setId("network-id");
+        network.setExtId("ext_id");
+        return network;
     }
-    // TODO
+
     private Quota createQuota() {
         Quota quota = new Quota();
         quota.setCores(99999);
