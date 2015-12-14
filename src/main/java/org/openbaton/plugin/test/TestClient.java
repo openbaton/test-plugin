@@ -17,29 +17,32 @@ package org.openbaton.plugin.test;
 
 import org.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.openbaton.catalogue.nfvo.*;
+import org.openbaton.plugin.PluginStarter;
 import org.openbaton.vim.drivers.exceptions.VimDriverException;
 import org.openbaton.vim.drivers.interfaces.VimDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by lto on 12/05/15.
- *
+ * <p/>
  * This class represents a Vim Driver plugin. As vim driver, it must implement the interface {@Link ClientInterfaces}.
  * This is just an example that can be used to create a OpenBaton plugin. The basic concept is shared by all the plugins.
- *
+ * <p/>
  * The plugin class must be annotated as @Component (at least) and implement the specific interface.
  * There must be a configuration file in the classpath called plugin.conf.properties that contains:
- *
- *  *) sender-type = the type of the sender (default and unique for now: JMS)
- *  *) receiver-type = the type of the receiver (default and unique for now: JMS)
- *  *) type = the type of the plugin (test, openstack, amazon ...)
- *  *) endpoint = the endpoint of the plugin (i.e. queue name)
- *  *) concurrency = the concurrency of the receiver (default: 1)
- *
+ * <p/>
+ * *) sender-type = the type of the sender (default and unique for now: JMS)
+ * *) receiver-type = the type of the receiver (default and unique for now: JMS)
+ * *) type = the type of the plugin (test, openstack, amazon ...)
+ * *) endpoint = the endpoint of the plugin (i.e. queue name)
+ * *) concurrency = the concurrency of the receiver (default: 1)
  */
 public class TestClient extends VimDriver {
 
@@ -47,6 +50,13 @@ public class TestClient extends VimDriver {
 
     public TestClient() throws RemoteException {
         super();
+    }
+
+    public static void main(String[] args) throws NoSuchMethodException, IOException, InstantiationException, TimeoutException, IllegalAccessException, InvocationTargetException {
+        if (args.length <= 1)
+            PluginStarter.registerPlugin(TestClient.class, "test", "localhost", 5672, 3);
+        else
+            PluginStarter.registerPlugin(TestClient.class, args[0], args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]), args[4], args[5]);
     }
 
     @Override
@@ -58,14 +68,17 @@ public class TestClient extends VimDriver {
     public List<NFVImage> listImages(VimInstance vimInstance) {
         ArrayList<NFVImage> nfvImages = new ArrayList<>();
         NFVImage image = new NFVImage();
-        image.setExtId("ext_id_1");
+        image.setExtId("ext_id");
         image.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
         nfvImages.add(image);
 
-        image = new NFVImage();
-        image.setExtId("ext_id_2");
-        image.setName("image_name_1");
-        nfvImages.add(image);
+        for (int i = 1; i <= 20; i++) {
+            NFVImage img = new NFVImage();
+            img.setExtId("ext_id_" + i);
+            img.setName("image_name_" + i);
+            nfvImages.add(img);
+        }
+
         return nfvImages;
     }
 
@@ -130,7 +143,9 @@ public class TestClient extends VimDriver {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return createServer();
+        Server server = createServer();
+        log.debug("Created server: " + server);
+        return server;
     }
 
     @Override
@@ -232,21 +247,21 @@ public class TestClient extends VimDriver {
         return "test";
     }
 
-
-
-
-
-
-
-
-
-
-
     private Server createServer() {
         Server server = new Server();
         server.setName("server_name");
         server.setExtId("ext_id");
-        server.setIps(new HashMap<String , List<String>>());
+        server.setCreated(new Date());
+        server.setFloatingIps(new HashMap<String, String>());
+        server.setExtendedStatus("ACTIVE");
+        DeploymentFlavour flavor = new DeploymentFlavour();
+        flavor.setDisk(100);
+        flavor.setExtId("ext");
+        flavor.setFlavour_key("m1.small");
+        flavor.setRam(2000);
+        flavor.setVcpus(4);
+        server.setFlavor(flavor);
+        server.setIps(new HashMap<String, List<String>>());
         return server;
     }
 

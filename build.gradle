@@ -38,7 +38,7 @@ repositories {
 apply plugin: 'spring-boot'
 
 
-mainClassName = 'org.openbaton.plugin.test.Starter'
+mainClassName = 'org.openbaton.plugin.test.TestClient'
 
 
 dependencies {
