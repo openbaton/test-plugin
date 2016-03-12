@@ -18,7 +18,6 @@ package org.openbaton.plugin.test;
 import org.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.openbaton.catalogue.nfvo.*;
 import org.openbaton.plugin.PluginStarter;
-import org.openbaton.vim.drivers.exceptions.VimDriverException;
 import org.openbaton.vim.drivers.interfaces.VimDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +47,7 @@ public class TestClient extends VimDriver {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public TestClient() throws RemoteException {
+    public TestClient() {
         super();
     }
 
@@ -132,12 +131,12 @@ public class TestClient extends VimDriver {
     }
 
     @Override
-    public Server launchInstanceAndWait(VimInstance vimInstance, String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s) throws RemoteException, VimDriverException {
+    public Server launchInstanceAndWait(VimInstance vimInstance, String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s) {
         return launchInstanceAndWait(vimInstance, hostname, image, extId, keyPair, networks, securityGroups, s, null);
     }
 
     @Override
-    public Server launchInstanceAndWait(VimInstance vimInstance, String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s, Map<String, String> floatingIps) throws VimDriverException, RemoteException {
+    public Server launchInstanceAndWait(VimInstance vimInstance, String hostname, String image, String extId, String keyPair, Set<String> networks, Set<String> securityGroups, String s, Map<String, String> floatingIps) {
         try {
             Thread.sleep((long) (Math.random() * 3500));
         } catch (InterruptedException e) {
@@ -168,12 +167,12 @@ public class TestClient extends VimDriver {
     }
 
     @Override
-    public NFVImage addImage(VimInstance vimInstance, NFVImage image, byte[] imageFile) throws RemoteException {
+    public NFVImage addImage(VimInstance vimInstance, NFVImage image, byte[] imageFile) {
         return image;
     }
 
     @Override
-    public NFVImage addImage(VimInstance vimInstance, NFVImage image, String image_url) throws RemoteException {
+    public NFVImage addImage(VimInstance vimInstance, NFVImage image, String image_url) {
         return image;
     }
 
@@ -183,7 +182,7 @@ public class TestClient extends VimDriver {
     }
 
     @Override
-    public NFVImage copyImage(VimInstance vimInstance, NFVImage image, byte[] imageFile) throws RemoteException {
+    public NFVImage copyImage(VimInstance vimInstance, NFVImage image, byte[] imageFile) {
         return image;
     }
 
