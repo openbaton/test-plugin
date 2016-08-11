@@ -16,7 +16,13 @@
 package org.openbaton.plugin.test;
 
 import org.openbaton.catalogue.mano.common.DeploymentFlavour;
-import org.openbaton.catalogue.nfvo.*;
+import org.openbaton.catalogue.nfvo.NFVImage;
+import org.openbaton.catalogue.nfvo.Network;
+import org.openbaton.catalogue.nfvo.Quota;
+import org.openbaton.catalogue.nfvo.Server;
+import org.openbaton.catalogue.nfvo.Subnet;
+import org.openbaton.catalogue.nfvo.VimInstance;
+import org.openbaton.catalogue.security.Key;
 import org.openbaton.plugin.PluginStarter;
 import org.openbaton.vim.drivers.interfaces.VimDriver;
 import org.slf4j.Logger;
@@ -24,8 +30,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.rmi.RemoteException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -157,7 +167,7 @@ public class TestClient extends VimDriver {
       Set<String> securityGroups,
       String s) {
     return launchInstanceAndWait(
-        vimInstance, hostname, image, extId, keyPair, networks, securityGroups, s, null);
+        vimInstance, hostname, image, extId, keyPair, networks, securityGroups, s, null, null);
   }
 
   @Override
@@ -170,7 +180,8 @@ public class TestClient extends VimDriver {
       Set<String> networks,
       Set<String> securityGroups,
       String s,
-      Map<String, String> floatingIps) {
+      Map<String, String> floatingIps,
+      Set<Key> keys) {
     try {
       Thread.sleep((long) (Math.random() * 3500));
     } catch (InterruptedException e) {
