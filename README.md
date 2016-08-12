@@ -3,7 +3,7 @@
   Copyright © 2015-2016 [Open Baton](http://openbaton.org). 
   Licensed under [Apache v2 License](http://www.apache.org/licenses/LICENSE-2.0).
 
-https://travis-ci.org/openbaton/test-plugin.svg?branch=develop
+[![Build Status](https://travis-ci.org/openbaton/test-plugin.svg?branch=master)](https://travis-ci.org/openbaton/test-plugin)
 
 # Test plugin for Vim Driver interface
 This plugin imitates the behaviour of a real vim-driver plugin and offers in this way the possibility to test the NFVO without an actual VIM (for instance Openstack). 
