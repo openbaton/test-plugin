@@ -3,12 +3,14 @@
   Copyright © 2015-2016 [Open Baton](http://openbaton.org). 
   Licensed under [Apache v2 License](http://www.apache.org/licenses/LICENSE-2.0).
 
+https://travis-ci.org/openbaton/test-plugin.svg?branch=develop
+
 # Test plugin for Vim Driver interface
 This plugin imitates the behaviour of a real vim-driver plugin and offers in this way the possibility to test the NFVO without an actual VIM (for instance Openstack). 
 
 It works with [dummy][dummy-vnfm-amqp] implementations of the VNFM. 
 
-# How to install the Test plugin
+## How to install the Test plugin
 
 If you follow the documentation and use the bootstrap script to install Open Baton the Test plugin will already be present.
 
@@ -25,12 +27,12 @@ executing
 Afterwards you will find the jar file in the folder *build/libs*.  
 Copy it into the folder *{nfvoRootDir}/plugins/vim-drivers* and restart the NFVO.
 
-# How to use the Test plugin
+## How to use the Test plugin
 
 To use the Test plugin you have to register a Vim Instance with the *type* field set to value *test* and use this Vim Instance for deploying your network service. 
 Additionally you should use a [dummy][dummy-vnfm-amqp] implementation of a VNFM. 
 
-# Issue tracker
+## Issue tracker
 
 Issues and bug reports should be posted to the GitHub Issue Tracker of this project
 
@@ -42,16 +44,16 @@ Open Baton is a ETSI NFV MANO compliant framework. Open Baton was part of the Op
 
 Open Baton is easily extensible. It integrates with OpenStack, and provides a plugin mechanism for supporting additional VIM types. It supports Network Service management either using a generic VNFM or interoperating with VNF-specific VNFM. It uses different mechanisms (REST or PUB/SUB) for interoperating with the VNFMs. It integrates with additional components for the runtime management of a Network Service. For instance, it provides autoscaling and fault management based on monitoring information coming from the the monitoring system available at the NFVI level.
 
-# Source Code and documentation
+## Source Code and documentation
 
 The Source Code of the other Open Baton projects can be found [here][openbaton-github] and the documentation can be found [here][openbaton-doc] .
 
-# News and Website
+## News and Website
 
 Check the [Open Baton Website][openbaton]
 Follow us on Twitter @[openbaton][openbaton-twitter].
 
-# Licensing and distribution
+## Licensing and distribution
 Copyright [2015-2016] Open Baton project
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -67,7 +69,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-# Support
+## Support
 The Open Baton project provides community support through the Open Baton Public Mailing List and through StackOverflow using the tags openbaton.
 
 # Supported by
