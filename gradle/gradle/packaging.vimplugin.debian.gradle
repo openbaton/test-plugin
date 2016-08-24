@@ -30,7 +30,7 @@ task makedeb(type: Deb, dependsOn: [jar, build]) {
     license = 'Apache 2.0 License'
     url = 'http://openbaton.github.io/index.html'
     summary = 'Test Virtualized Infrastructure Manager (VIM) Driver Plugin for the Open Baton Project'
-    packageDescription = 'The OpenStack VIM Driver Plugin is a component of the Open Baton projetc, which is an ETSI compliant implementation of a NFV Management and Orchestration (MANO) . It allows, using the Open Baton system, to imitate the behaviour of a real VIM Driver Plugin offering in this way the possibility to test the NFVO without an actual VIM instance.'
+    packageDescription = 'The OpenStack VIM Driver Plugin is a component of the Open Baton projetc, which is an ETSI compliant implementation of a NFV Management and Orchestration (MANO). It allows, using the Open Baton system, to imitate the behaviour of a real VIM Driver Plugin offering in this way the possibility to test the NFVO without an actual VIM instance.'
 
     // Copy files from "from path" to "into path"
     from(jar.outputs.files) 				                        { into '/usr/lib/openbaton/plugins' }      // jar file
