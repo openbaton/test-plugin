@@ -24,25 +24,50 @@ buildscript {
 
 plugins {
     id 'com.github.sherter.google-java-format' version '0.3.2'
+    id "nebula.os-package" version "2.2.6"
 }
 
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+
+apply from: 'gradle/gradle/command.line.helper.gradle'
+apply from: 'gradle/gradle/git.helpers.gradle'
+
+
+/**
+ * Project settings
+ */
+project.ext {
+    //------------------------------------------------//
+    /**
+     * Application Related Version
+     */
+    applicationVersion = version
+
+    applicationRelease = isApplicationRelease()
+    applicationDate = new Date()
+    applicationRevision = getRevision()
+
+    applicationVersionSnapshot = (!applicationRelease) ? ".${asUTC(applicationDate, 'yyyyMMdd')}.git${applicationRevision}" : ""
+    applicationVersionFull = "${applicationVersion}${applicationVersionSnapshot}"
+    //------------------------------------------------//
+}
+
 
 repositories {
     mavenCentral()
-    maven { url "http://get.openbaton.org:8081/nexus/content/groups/public/" }
+    //maven { url "http://get.openbaton.org:8081/nexus/content/groups/public/" }
+    // OB-SNAPSHOTS
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
-
-apply plugin: 'spring-boot'
-
 
 mainClassName = 'org.openbaton.plugin.test.TestClient'
 
 
 dependencies {
-    compile 'org.openbaton:plugin-sdk:2.1.2-SNAPSHOT'
+    compile 'org.openbaton:plugin-sdk:2.2.0'
 
     compile 'org.slf4j:slf4j-api:1.7.12'
     compile 'org.slf4j:slf4j-simple:1.7.12'
@@ -54,3 +79,5 @@ dependencies {
 }
 
 build.dependsOn verifyGoogleJavaFormat
+
+apply from: 'gradle/gradle/packaging.vimplugin.debian.gradle'
