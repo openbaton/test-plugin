@@ -81,4 +81,4 @@ dependencies {
 
 build.dependsOn verifyGoogleJavaFormat
 
-apply from: 'gradle/gradle/packaging.vimplugin.debian.gradle'
+apply from: 'gradle/gradle/packaging.plugin-vimdriver-test.debian.gradle'
