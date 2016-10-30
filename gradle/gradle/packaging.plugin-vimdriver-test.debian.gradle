@@ -19,10 +19,10 @@ ext {
 
     baseName = 'openbaton'
     componentName = "plugin-vimdriver-test"
-    jarSubpathName = "plugins"
     fullName = "${baseName}-${componentName}"
     propertiesDir = '/etc/openbaton'
     baseBinaryDir = '/usr/lib/openbaton'
+    jarSubpathName = "plugins".replaceAll("-", "/")
 }
 
 task makedeb(type: Deb, dependsOn: [jar, build]) { 
