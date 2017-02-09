@@ -17,6 +17,7 @@
 package org.openbaton.plugin.test;
 
 import org.openbaton.catalogue.mano.common.DeploymentFlavour;
+import org.openbaton.catalogue.mano.descriptor.VNFDConnectionPoint;
 import org.openbaton.catalogue.nfvo.NFVImage;
 import org.openbaton.catalogue.nfvo.Network;
 import org.openbaton.catalogue.nfvo.Quota;
@@ -69,13 +70,7 @@ public class TestClient extends VimDriver {
       PluginStarter.registerPlugin(TestClient.class, "test", "localhost", 5672, 3);
     else
       PluginStarter.registerPlugin(
-          TestClient.class,
-          args[0],
-          args[1],
-          Integer.parseInt(args[2]),
-          Integer.parseInt(args[3]),
-          args[4],
-          args[5]);
+          TestClient.class, args[0], args[1], Integer.parseInt(args[2]), Integer.parseInt(args[3]));
   }
 
   @Override
@@ -85,7 +80,7 @@ public class TestClient extends VimDriver {
       String image,
       String flavor,
       String keypair,
-      Set<String> network,
+      Set<VNFDConnectionPoint> network,
       Set<String> secGroup,
       String userData) {
     return createServer();
@@ -164,7 +159,7 @@ public class TestClient extends VimDriver {
       String image,
       String extId,
       String keyPair,
-      Set<String> networks,
+      Set<VNFDConnectionPoint> networks,
       Set<String> securityGroups,
       String s) {
     return launchInstanceAndWait(
@@ -178,7 +173,7 @@ public class TestClient extends VimDriver {
       String image,
       String extId,
       String keyPair,
-      Set<String> networks,
+      Set<VNFDConnectionPoint> networks,
       Set<String> securityGroups,
       String s,
       Map<String, String> floatingIps,

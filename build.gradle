@@ -68,7 +68,7 @@ mainClassName = 'org.openbaton.plugin.test.TestClient'
 
 
 dependencies {
-    compile 'org.openbaton:plugin-sdk:3.0.0'
+    compile 'org.openbaton:plugin-sdk:3.2.0'
 
     compile 'org.slf4j:slf4j-api:1.7.12'
     compile 'org.slf4j:slf4j-simple:1.7.12'
@@ -79,6 +79,6 @@ dependencies {
     testCompile("org.mockito:mockito-core:1.9.5")
 }
 
-build.dependsOn verifyGoogleJavaFormat
+apply from: 'gradle/gradle/packaging.plugin-vimdriver-test.debian.gradle'
 
-apply from: 'gradle/gradle/packaging.vimplugin.debian.gradle'
+compileJava.dependsOn tasks.googleJavaFormat
