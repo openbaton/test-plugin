@@ -306,7 +306,7 @@ public class TestClient extends VimDriver {
     network.setName("network_name");
     network.setId("network-id");
     network.setExtId("ext_id");
-    network.setSubnets(new HashSet<>());
+    network.setSubnets(new HashSet<Subnet>());
     Subnet subnet = new Subnet();
     subnet.setName(network.getName() + "_subnet");
     subnet.setCidr("192.168.1.1/24");
