@@ -16,6 +16,10 @@
 
 package org.openbaton.plugin.test;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.concurrent.TimeoutException;
 import org.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.openbaton.catalogue.mano.descriptor.VNFDConnectionPoint;
 import org.openbaton.catalogue.nfvo.NFVImage;
@@ -30,30 +34,21 @@ import org.openbaton.vim.drivers.interfaces.VimDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeoutException;
-
 /**
  * Created by lto on 12/05/15.
- * <p/>
- * This class represents a Vim Driver plugin. As vim driver, it must implement the interface {@Link
- *  ClientInterfaces}. This is just an example that can be used to create a OpenBaton plugin.
+ *
+ * <p>This class represents a Vim Driver plugin. As vim driver, it must implement the interface
+ * {@Link ClientInterfaces}. This is just an example that can be used to create a OpenBaton plugin.
  * The basic concept is shared by all the plugins.
- * <p/>
- * The plugin class must be annotated as @Component (at least) and implement the specific interface.
- * There must be a configuration file in the classpath called plugin.conf.properties that contains:
- * <p/>
- * *) sender-type = the type of the sender (default and unique for now: JMS) *) receiver-type = the
- * type of the receiver (default and unique for now: JMS) *) type = the type of the plugin (test,
- * openstack, amazon ...) *) endpoint = the endpoint of the plugin (i.e. queue name) *) concurrency
- * = the concurrency of the receiver (default: 1)
+ *
+ * <p>The plugin class must be annotated as @Component (at least) and implement the specific
+ * interface. There must be a configuration file in the classpath called plugin.conf.properties that
+ * contains:
+ *
+ * <p>*) sender-type = the type of the sender (default and unique for now: JMS) *) receiver-type =
+ * the type of the receiver (default and unique for now: JMS) *) type = the type of the plugin
+ * (test, openstack, amazon ...) *) endpoint = the endpoint of the plugin (i.e. queue name) *)
+ * concurrency = the concurrency of the receiver (default: 1)
  */
 public class TestClient extends VimDriver {
 
@@ -311,6 +306,13 @@ public class TestClient extends VimDriver {
     network.setName("network_name");
     network.setId("network-id");
     network.setExtId("ext_id");
+    network.setSubnets(new HashSet<>());
+    Subnet subnet = new Subnet();
+    subnet.setName(network.getName() + "_subnet");
+    subnet.setCidr("192.168.1.1/24");
+    subnet.setExtId("ext_id");
+    subnet.setNetworkId(network.getId());
+    subnet.setGatewayIp("192.168.1.1");
     return network;
   }
 
