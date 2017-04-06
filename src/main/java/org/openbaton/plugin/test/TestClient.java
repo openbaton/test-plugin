@@ -372,12 +372,12 @@ public class TestClient extends VimDriver {
   private Network createNetwork(String networkName, String networkId) {
     Network network = new Network();
     network.setName(networkName);
-    network.setExtId(String.valueOf(Math.random() * 1000));
+    network.setExtId(networkId);
     network.setSubnets(new HashSet<Subnet>());
     Subnet subnet = new Subnet();
     subnet.setName(network.getName() + "_subnet");
     subnet.setCidr("192.168.1." + (int) (Math.random() * 100) + "/24");
-    subnet.setExtId("subnet_" + String.valueOf(Math.random() * 1000));
+    subnet.setExtId("subnet_" + networkId);
     subnet.setGatewayIp("192.168.1.1");
     return network;
   }
