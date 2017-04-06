@@ -16,10 +16,6 @@
 
 package org.openbaton.plugin.test;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.util.concurrent.TimeoutException;
 import org.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.openbaton.catalogue.mano.descriptor.VNFDConnectionPoint;
 import org.openbaton.catalogue.nfvo.NFVImage;
@@ -33,6 +29,17 @@ import org.openbaton.plugin.PluginStarter;
 import org.openbaton.vim.drivers.interfaces.VimDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by lto on 12/05/15.
@@ -85,14 +92,69 @@ public class TestClient extends VimDriver {
   public List<NFVImage> listImages(VimInstance vimInstance) {
     ArrayList<NFVImage> nfvImages = new ArrayList<>();
     NFVImage image = new NFVImage();
-    image.setExtId("ext_id");
+    image.setExtId("ext_id_0");
     image.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
+    image.setContainerFormat("BARE");
+    image.setDiskFormat("QCOW2");
+    image.setMinRam(0);
+    image.setMinCPU("1");
+    image.setMinDiskSpace(0);
+    image.setIsPublic(Math.random() >= 0.5);
+    image.setCreated(new Date());
+    image.setUpdated(new Date());
+    nfvImages.add(image);
+
+    image = new NFVImage();
+    image.setExtId("ext_id_1");
+    image.setName("ubuntu-16.04-server-cloudimg-amd64-disk1");
+    image.setContainerFormat("BARE");
+    image.setDiskFormat("QCOW2");
+    image.setMinRam(0);
+    image.setMinCPU("1");
+    image.setMinDiskSpace(0);
+    image.setIsPublic(Math.random() >= 0.5);
+    image.setCreated(new Date());
+    image.setUpdated(new Date());
+    nfvImages.add(image);
+
+    image = new NFVImage();
+    image.setExtId("ext_id");
+    image.setName("ubuntu-14.04");
+    image.setContainerFormat("BARE");
+    image.setDiskFormat("QCOW2");
+    image.setMinRam(0);
+    image.setMinCPU("1");
+    image.setMinDiskSpace(0);
+    image.setIsPublic(Math.random() >= 0.5);
+    image.setCreated(new Date());
+    image.setUpdated(new Date());
+    nfvImages.add(image);
+
+    image = new NFVImage();
+    image.setExtId("ext_id");
+    image.setName("ubuntu-16.04");
+    image.setContainerFormat("BARE");
+    image.setDiskFormat("QCOW2");
+    image.setMinRam(0);
+    image.setMinCPU("1");
+    image.setMinDiskSpace(0);
+    image.setIsPublic(Math.random() >= 0.5);
+    image.setCreated(new Date());
+    image.setUpdated(new Date());
     nfvImages.add(image);
 
     for (int i = 1; i <= 20; i++) {
       NFVImage img = new NFVImage();
       img.setExtId("ext_id_" + i);
       img.setName("image_name_" + i);
+      img.setContainerFormat("BARE");
+      img.setDiskFormat("QCOW2");
+      img.setMinRam(0);
+      img.setMinCPU("1");
+      img.setMinDiskSpace(0);
+      img.setIsPublic(Math.random() >= 0.5);
+      img.setCreated(new Date());
+      img.setUpdated(new Date());
       nfvImages.add(img);
     }
 
@@ -117,7 +179,13 @@ public class TestClient extends VimDriver {
   @Override
   public List<Network> listNetworks(VimInstance vimInstance) {
     ArrayList<Network> networks = new ArrayList<>();
-    networks.add(createNetwork());
+    for (int i = 0; i < 20; i++) networks.add(createNetwork("net_" + i, "id_" + i));
+
+    networks.add(createNetwork("mgmt", "id_mgmt"));
+    networks.add(createNetwork("net_a", "id_nat_a"));
+    networks.add(createNetwork("net_b", "id_nat_b"));
+    networks.add(createNetwork("net_c", "id_nat_c"));
+    networks.add(createNetwork("net_d", "id_nat_d"));
     return networks;
   }
 
@@ -270,7 +338,7 @@ public class TestClient extends VimDriver {
 
   @Override
   public Network getNetworkById(VimInstance vimInstance, String id) {
-    return createNetwork();
+    return createNetwork("net_name", id);
   }
 
   @Override
@@ -301,17 +369,15 @@ public class TestClient extends VimDriver {
     return server;
   }
 
-  private Network createNetwork() {
+  private Network createNetwork(String networkName, String networkId) {
     Network network = new Network();
-    network.setName("network_name");
-    network.setId("network-id");
-    network.setExtId("ext_id");
+    network.setName(networkName);
+    network.setExtId(String.valueOf(Math.random() * 1000));
     network.setSubnets(new HashSet<Subnet>());
     Subnet subnet = new Subnet();
     subnet.setName(network.getName() + "_subnet");
-    subnet.setCidr("192.168.1.1/24");
-    subnet.setExtId("ext_id");
-    subnet.setNetworkId(network.getId());
+    subnet.setCidr("192.168.1." + (int) (Math.random() * 100) + "/24");
+    subnet.setExtId("subnet_" + String.valueOf(Math.random() * 1000));
     subnet.setGatewayIp("192.168.1.1");
     return network;
   }
