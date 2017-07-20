@@ -19,6 +19,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.6.RELEASE")
+        classpath("se.transmode.gradle:gradle-docker:1.2")
     }
 }
 
@@ -29,6 +30,7 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'docker'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
@@ -81,5 +83,6 @@ dependencies {
 }
 
 apply from: 'gradle/gradle/packaging.plugin-vimdriver-test.debian.gradle'
+apply from: 'gradle/gradle/packaging.plugin-vimdriver-test.docker.gradle'
 
 compileJava.dependsOn tasks.googleJavaFormat
