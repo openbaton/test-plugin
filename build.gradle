@@ -61,7 +61,6 @@ project.ext {
 repositories {
     mavenLocal()
     mavenCentral()
-    //maven { url "http://get.openbaton.org:8081/nexus/content/groups/public/" }
     // OB-SNAPSHOTS
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     maven { url "https://oss.sonatype.org/content/repositories/releases/" }
@@ -71,7 +70,7 @@ mainClassName = 'org.openbaton.plugin.test.TestClient'
 
 
 dependencies {
-    compile 'org.openbaton:plugin-sdk:3.2.3-SNAPSHOT'
+    compile 'org.openbaton:plugin-sdk:4.0.0'
 
     compile 'org.slf4j:slf4j-api:1.7.12'
     compile 'org.slf4j:slf4j-simple:1.7.12'
