@@ -17,6 +17,7 @@
 package org.openbaton.plugin.test;
 
 import java.io.IOException;
+import java.lang.InterruptedException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -66,7 +67,7 @@ public class TestClient extends VimDriver {
 
   public static void main(String[] args)
       throws NoSuchMethodException, IOException, InstantiationException, TimeoutException,
-          IllegalAccessException, InvocationTargetException {
+          IllegalAccessException, InvocationTargetException, InterruptedException {
     if (args.length <= 1)
       PluginStarter.registerPlugin(TestClient.class, "test", "localhost", 5672, 3);
     else
