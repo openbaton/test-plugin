@@ -21,9 +21,7 @@ import org.openbaton.catalogue.mano.descriptor.VNFDConnectionPoint;
 import org.openbaton.catalogue.nfvo.Quota;
 import org.openbaton.catalogue.nfvo.Server;
 import org.openbaton.catalogue.nfvo.images.BaseNfvImage;
-import org.openbaton.catalogue.nfvo.images.NFVImage;
 import org.openbaton.catalogue.nfvo.networks.BaseNetwork;
-import org.openbaton.catalogue.nfvo.networks.Network;
 import org.openbaton.catalogue.nfvo.networks.Subnet;
 import org.openbaton.catalogue.nfvo.viminstances.BaseVimInstance;
 import org.openbaton.catalogue.nfvo.viminstances.GenericVimInstance;
@@ -95,70 +93,83 @@ public class TestClient extends VimDriver {
   @Override
   public List<BaseNfvImage> listImages(BaseVimInstance vimInstance) {
     ArrayList<BaseNfvImage> nfvImages = new ArrayList<>();
-    NFVImage image = new NFVImage();
-    image.setExtId("ext_id_0");
-    image.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
-    image.setContainerFormat("BARE");
-    image.setDiskFormat("QCOW2");
-    image.setMinRam(0);
-    image.setMinCPU("1");
-    image.setMinDiskSpace(0);
-    image.setIsPublic(Math.random() >= 0.5);
+    BaseNfvImage image = new BaseNfvImage();
+    image.setExtId("ubuntu-14.04-server-cloudimg-amd64-disk1");
+//    image.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
+//    image.setContainerFormat("BARE");
+//    image.setDiskFormat("QCOW2");
+//    image.setMinRam(0);
+//    image.setMinCPU("1");
+//    image.setMinDiskSpace(0);
+//    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-    image.setUpdated(new Date());
+//    image.setUpdated(new Date());
     nfvImages.add(image);
 
-    image = new NFVImage();
-    image.setExtId("ext_id_1");
-    image.setName("ubuntu-16.04-server-cloudimg-amd64-disk1");
-    image.setContainerFormat("BARE");
-    image.setDiskFormat("QCOW2");
-    image.setMinRam(0);
-    image.setMinCPU("1");
-    image.setMinDiskSpace(0);
-    image.setIsPublic(Math.random() >= 0.5);
+    image = new BaseNfvImage();
+    image.setExtId("ubuntu-16.04-server-cloudimg-amd64-disk1");
+//    image.setName("ubuntu-16.04-server-cloudimg-amd64-disk1");
+//    image.setContainerFormat("BARE");
+//    image.setDiskFormat("QCOW2");
+//    image.setMinRam(0);
+//    image.setMinCPU("1");
+//    image.setMinDiskSpace(0);
+//    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-    image.setUpdated(new Date());
+//    image.setUpdated(new Date());
     nfvImages.add(image);
 
-    image = new NFVImage();
-    image.setExtId("ext_id");
-    image.setName("ubuntu-14.04");
-    image.setContainerFormat("BARE");
-    image.setDiskFormat("QCOW2");
-    image.setMinRam(0);
-    image.setMinCPU("1");
-    image.setMinDiskSpace(0);
-    image.setIsPublic(Math.random() >= 0.5);
+    image = new BaseNfvImage();
+    image.setExtId("ubuntu-14.04");
+//    image.setName("ubuntu-14.04");
+//    image.setContainerFormat("BARE");
+//    image.setDiskFormat("QCOW2");
+//    image.setMinRam(0);
+//    image.setMinCPU("1");
+//    image.setMinDiskSpace(0);
+//    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-    image.setUpdated(new Date());
+//    image.setUpdated(new Date());
     nfvImages.add(image);
 
-    image = new NFVImage();
-    image.setExtId("ext_id");
-    image.setName("ubuntu-16.04");
-    image.setContainerFormat("BARE");
-    image.setDiskFormat("QCOW2");
-    image.setMinRam(0);
-    image.setMinCPU("1");
-    image.setMinDiskSpace(0);
-    image.setIsPublic(Math.random() >= 0.5);
+    image = new BaseNfvImage();
+    image.setExtId("ubuntu-16.04");
+//    image.setName("ubuntu-16.04");
+//    image.setContainerFormat("BARE");
+//    image.setDiskFormat("QCOW2");
+//    image.setMinRam(0);
+//    image.setMinCPU("1");
+//    image.setMinDiskSpace(0);
+//    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-    image.setUpdated(new Date());
+//    image.setUpdated(new Date());
+    nfvImages.add(image);
+
+    image = new BaseNfvImage();
+    image.setExtId("Ubuntu-16.04");
+    //    image.setName("ubuntu-16.04");
+    //    image.setContainerFormat("BARE");
+    //    image.setDiskFormat("QCOW2");
+    //    image.setMinRam(0);
+    //    image.setMinCPU("1");
+    //    image.setMinDiskSpace(0);
+    //    image.setIsPublic(Math.random() >= 0.5);
+    image.setCreated(new Date());
+    //    image.setUpdated(new Date());
     nfvImages.add(image);
 
     for (int i = 1; i <= 20; i++) {
-      NFVImage img = new NFVImage();
+      BaseNfvImage img = new BaseNfvImage();
       img.setExtId("ext_id_" + i);
-      img.setName("image_name_" + i);
-      img.setContainerFormat("BARE");
-      img.setDiskFormat("QCOW2");
-      img.setMinRam(0);
-      img.setMinCPU("1");
-      img.setMinDiskSpace(0);
-      img.setIsPublic(Math.random() >= 0.5);
+//      img.setName("image_name_" + i);
+//      img.setContainerFormat("BARE");
+//      img.setDiskFormat("QCOW2");
+//      img.setMinRam(0);
+//      img.setMinCPU("1");
+//      img.setMinDiskSpace(0);
+//      img.setIsPublic(Math.random() >= 0.5);
       img.setCreated(new Date());
-      img.setUpdated(new Date());
+//      img.setUpdated(new Date());
       nfvImages.add(img);
     }
 
@@ -287,8 +298,8 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public Network createNetwork(BaseVimInstance vimInstance, BaseNetwork network) {
-    return (Network) network;
+  public BaseNetwork createNetwork(BaseVimInstance vimInstance, BaseNetwork network) {
+    return network;
   }
 
   @Override
@@ -298,23 +309,23 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public NFVImage addImage(BaseVimInstance vimInstance, BaseNfvImage image, byte[] imageFile) {
-    return (NFVImage) image;
+  public BaseNfvImage addImage(BaseVimInstance vimInstance, BaseNfvImage image, byte[] imageFile) {
+    return image;
   }
 
   @Override
-  public NFVImage addImage(BaseVimInstance vimInstance, BaseNfvImage image, String image_url) {
-    return (NFVImage) image;
+  public BaseNfvImage addImage(BaseVimInstance vimInstance, BaseNfvImage image, String image_url) {
+    return (BaseNfvImage) image;
   }
 
   @Override
-  public NFVImage updateImage(BaseVimInstance vimInstance, BaseNfvImage image) {
-    return (NFVImage) image;
+  public BaseNfvImage updateImage(BaseVimInstance vimInstance, BaseNfvImage image) {
+    return (BaseNfvImage) image;
   }
 
   @Override
-  public NFVImage copyImage(BaseVimInstance vimInstance, BaseNfvImage image, byte[] imageFile) {
-    return (NFVImage) image;
+  public BaseNfvImage copyImage(BaseVimInstance vimInstance, BaseNfvImage image, byte[] imageFile) {
+    return (BaseNfvImage) image;
   }
 
   @Override
@@ -340,8 +351,8 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public Network updateNetwork(BaseVimInstance vimInstance, BaseNetwork network) {
-    return (Network) network;
+  public BaseNetwork updateNetwork(BaseVimInstance vimInstance, BaseNetwork network) {
+    return (BaseNetwork) network;
   }
 
   @Override
@@ -366,7 +377,7 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public Network getNetworkById(BaseVimInstance vimInstance, String id) {
+  public BaseNetwork getNetworkById(BaseVimInstance vimInstance, String id) {
     return createNetwork("net_name", id);
   }
 
@@ -394,15 +405,14 @@ public class TestClient extends VimDriver {
     flavor.setRam(2000);
     flavor.setVcpus(4);
     server.setFlavor(flavor);
-    server.setIps(new HashMap<String, List<String>>());
+    server.setIps(new HashMap<>());
     return server;
   }
 
-  private Network createNetwork(String networkName, String networkId) {
-    Network network = new Network();
+  private BaseNetwork createNetwork(String networkName, String networkId) {
+    BaseNetwork network = new BaseNetwork();
     network.setName(networkName);
     network.setExtId(networkId);
-    network.setSubnets(new HashSet<Subnet>());
     Subnet subnet = new Subnet();
     subnet.setName(network.getName() + "_subnet");
     subnet.setCidr("192.168.1." + (int) (Math.random() * 100) + "/24");
