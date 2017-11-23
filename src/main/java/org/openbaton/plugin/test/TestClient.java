@@ -16,8 +16,25 @@
 
 package org.openbaton.plugin.test;
 
+import org.openbaton.catalogue.mano.common.DeploymentFlavour;
+import org.openbaton.catalogue.mano.descriptor.VNFDConnectionPoint;
+import org.openbaton.catalogue.nfvo.Quota;
+import org.openbaton.catalogue.nfvo.Server;
+import org.openbaton.catalogue.nfvo.images.BaseNfvImage;
+import org.openbaton.catalogue.nfvo.images.NFVImage;
+import org.openbaton.catalogue.nfvo.networks.BaseNetwork;
+import org.openbaton.catalogue.nfvo.networks.Network;
+import org.openbaton.catalogue.nfvo.networks.Subnet;
+import org.openbaton.catalogue.nfvo.viminstances.BaseVimInstance;
+import org.openbaton.catalogue.nfvo.viminstances.GenericVimInstance;
+import org.openbaton.catalogue.security.Key;
+import org.openbaton.exceptions.VimDriverException;
+import org.openbaton.plugin.PluginStarter;
+import org.openbaton.vim.drivers.interfaces.VimDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
-import java.lang.InterruptedException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,19 +44,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeoutException;
-import org.openbaton.catalogue.mano.common.DeploymentFlavour;
-import org.openbaton.catalogue.mano.descriptor.VNFDConnectionPoint;
-import org.openbaton.catalogue.nfvo.NFVImage;
-import org.openbaton.catalogue.nfvo.Network;
-import org.openbaton.catalogue.nfvo.Quota;
-import org.openbaton.catalogue.nfvo.Server;
-import org.openbaton.catalogue.nfvo.Subnet;
-import org.openbaton.catalogue.nfvo.VimInstance;
-import org.openbaton.catalogue.security.Key;
-import org.openbaton.plugin.PluginStarter;
-import org.openbaton.vim.drivers.interfaces.VimDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Created by lto on 12/05/15.
@@ -77,7 +81,7 @@ public class TestClient extends VimDriver {
 
   @Override
   public Server launchInstance(
-      VimInstance vimInstance,
+      BaseVimInstance vimInstance,
       String name,
       String image,
       String flavor,
@@ -89,8 +93,8 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public List<NFVImage> listImages(VimInstance vimInstance) {
-    ArrayList<NFVImage> nfvImages = new ArrayList<>();
+  public List<BaseNfvImage> listImages(BaseVimInstance vimInstance) {
+    ArrayList<BaseNfvImage> nfvImages = new ArrayList<>();
     NFVImage image = new NFVImage();
     image.setExtId("ext_id_0");
     image.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
@@ -162,7 +166,7 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public List<Server> listServer(VimInstance vimInstance) {
+  public List<Server> listServer(BaseVimInstance vimInstance) {
     ArrayList<Server> servers = new ArrayList<>();
     Server server = new Server();
     server.setName("server_name");
@@ -171,14 +175,14 @@ public class TestClient extends VimDriver {
     flavor.setRam(10);
     flavor.setVcpus(1);
     server.setFlavor(flavor);
-    server.setIps(new HashMap<String, List<String>>());
+    server.setIps(new HashMap<>());
     servers.add(server);
     return servers;
   }
 
   @Override
-  public List<Network> listNetworks(VimInstance vimInstance) {
-    ArrayList<Network> networks = new ArrayList<>();
+  public List<BaseNetwork> listNetworks(BaseVimInstance vimInstance) {
+    ArrayList<BaseNetwork> networks = new ArrayList<>();
     for (int i = 0; i < 20; i++) networks.add(createNetwork("net_" + i, "id_" + i));
 
     networks.add(createNetwork("mgmt", "id_mgmt"));
@@ -190,7 +194,7 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public List<DeploymentFlavour> listFlavors(VimInstance vimInstance) {
+  public List<DeploymentFlavour> listFlavors(BaseVimInstance vimInstance) {
     ArrayList<DeploymentFlavour> deploymentFlavours = new ArrayList<>();
     DeploymentFlavour deploymentFlavour = new DeploymentFlavour();
     deploymentFlavour.setExtId("ext_id_1");
@@ -216,8 +220,30 @@ public class TestClient extends VimDriver {
   }
 
   @Override
+  public BaseVimInstance refresh(BaseVimInstance vimInstance) throws VimDriverException {
+    GenericVimInstance genericVimInstance = (GenericVimInstance) vimInstance;
+
+    List<BaseNfvImage> newImages = listImages(vimInstance);
+    if (genericVimInstance.getImages() == null) {
+      genericVimInstance.setImages(new HashSet<>());
+    }
+    genericVimInstance.getImages().clear();
+    genericVimInstance.addAllImages(newImages);
+
+    List<BaseNetwork> newNetworks = listNetworks(vimInstance);
+
+    if (genericVimInstance.getNetworks() == null) {
+      genericVimInstance.setNetworks(new HashSet<>());
+    }
+    genericVimInstance.getNetworks().clear();
+    genericVimInstance.addAllNetworks(newNetworks);
+
+    return genericVimInstance;
+  }
+
+  @Override
   public Server launchInstanceAndWait(
-      VimInstance vimInstance,
+      BaseVimInstance vimInstance,
       String hostname,
       String image,
       String extId,
@@ -231,7 +257,7 @@ public class TestClient extends VimDriver {
 
   @Override
   public Server launchInstanceAndWait(
-      VimInstance vimInstance,
+      BaseVimInstance vimInstance,
       String hostname,
       String image,
       String extId,
@@ -252,7 +278,7 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public void deleteServerByIdAndWait(VimInstance vimInstance, String id) {
+  public void deleteServerByIdAndWait(BaseVimInstance vimInstance, String id) {
     try {
       Thread.sleep((long) (Math.random() * 1500));
     } catch (InterruptedException e) {
@@ -261,93 +287,96 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public Network createNetwork(VimInstance vimInstance, Network network) {
-    return network;
+  public Network createNetwork(BaseVimInstance vimInstance, BaseNetwork network) {
+    return (Network) network;
   }
 
   @Override
-  public DeploymentFlavour addFlavor(VimInstance vimInstance, DeploymentFlavour deploymentFlavour) {
+  public DeploymentFlavour addFlavor(
+      BaseVimInstance vimInstance, DeploymentFlavour deploymentFlavour) {
     return deploymentFlavour;
   }
 
   @Override
-  public NFVImage addImage(VimInstance vimInstance, NFVImage image, byte[] imageFile) {
-    return image;
+  public NFVImage addImage(BaseVimInstance vimInstance, BaseNfvImage image, byte[] imageFile) {
+    return (NFVImage) image;
   }
 
   @Override
-  public NFVImage addImage(VimInstance vimInstance, NFVImage image, String image_url) {
-    return image;
+  public NFVImage addImage(BaseVimInstance vimInstance, BaseNfvImage image, String image_url) {
+    return (NFVImage) image;
   }
 
   @Override
-  public NFVImage updateImage(VimInstance vimInstance, NFVImage image) {
-    return image;
+  public NFVImage updateImage(BaseVimInstance vimInstance, BaseNfvImage image) {
+    return (NFVImage) image;
   }
 
   @Override
-  public NFVImage copyImage(VimInstance vimInstance, NFVImage image, byte[] imageFile) {
-    return image;
+  public NFVImage copyImage(BaseVimInstance vimInstance, BaseNfvImage image, byte[] imageFile) {
+    return (NFVImage) image;
   }
 
   @Override
-  public boolean deleteImage(VimInstance vimInstance, NFVImage image) {
+  public boolean deleteImage(BaseVimInstance vimInstance, BaseNfvImage image) {
     return true;
   }
 
   @Override
   public DeploymentFlavour updateFlavor(
-      VimInstance vimInstance, DeploymentFlavour deploymentFlavour) {
+      BaseVimInstance vimInstance, DeploymentFlavour deploymentFlavour) {
     return deploymentFlavour;
   }
 
   @Override
-  public boolean deleteFlavor(VimInstance vimInstance, String extId) {
+  public boolean deleteFlavor(BaseVimInstance vimInstance, String extId) {
     return true;
   }
 
   @Override
-  public Subnet createSubnet(VimInstance vimInstance, Network createdNetwork, Subnet subnet) {
+  public Subnet createSubnet(
+      BaseVimInstance vimInstance, BaseNetwork createdNetwork, Subnet subnet) {
     return subnet;
   }
 
   @Override
-  public Network updateNetwork(VimInstance vimInstance, Network network) {
-    return network;
+  public Network updateNetwork(BaseVimInstance vimInstance, BaseNetwork network) {
+    return (Network) network;
   }
 
   @Override
-  public Subnet updateSubnet(VimInstance vimInstance, Network updatedNetwork, Subnet subnet) {
+  public Subnet updateSubnet(
+      BaseVimInstance vimInstance, BaseNetwork updatedNetwork, Subnet subnet) {
     return subnet;
   }
 
   @Override
-  public List<String> getSubnetsExtIds(VimInstance vimInstance, String network_extId) {
+  public List<String> getSubnetsExtIds(BaseVimInstance vimInstance, String network_extId) {
     return new ArrayList<String>();
   }
 
   @Override
-  public boolean deleteSubnet(VimInstance vimInstance, String existingSubnetExtId) {
+  public boolean deleteSubnet(BaseVimInstance vimInstance, String existingSubnetExtId) {
     return true;
   }
 
   @Override
-  public boolean deleteNetwork(VimInstance vimInstance, String extId) {
+  public boolean deleteNetwork(BaseVimInstance vimInstance, String extId) {
     return true;
   }
 
   @Override
-  public Network getNetworkById(VimInstance vimInstance, String id) {
+  public Network getNetworkById(BaseVimInstance vimInstance, String id) {
     return createNetwork("net_name", id);
   }
 
   @Override
-  public Quota getQuota(VimInstance vimInstance) {
+  public Quota getQuota(BaseVimInstance vimInstance) {
     return createQuota();
   }
 
   @Override
-  public String getType(VimInstance vimInstance) {
+  public String getType(BaseVimInstance vimInstance) {
     return "test";
   }
 
@@ -356,7 +385,7 @@ public class TestClient extends VimDriver {
     server.setName("server_name");
     server.setExtId("ext_id");
     server.setCreated(new Date());
-    server.setFloatingIps(new HashMap<String, String>());
+    server.setFloatingIps(new HashMap<>());
     server.setExtendedStatus("ACTIVE");
     DeploymentFlavour flavor = new DeploymentFlavour();
     flavor.setDisk(100);
