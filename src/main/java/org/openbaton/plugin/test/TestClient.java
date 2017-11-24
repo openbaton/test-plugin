@@ -16,6 +16,16 @@
 
 package org.openbaton.plugin.test;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeoutException;
 import org.openbaton.catalogue.mano.common.DeploymentFlavour;
 import org.openbaton.catalogue.mano.descriptor.VNFDConnectionPoint;
 import org.openbaton.catalogue.nfvo.Quota;
@@ -31,17 +41,6 @@ import org.openbaton.plugin.PluginStarter;
 import org.openbaton.vim.drivers.interfaces.VimDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Created by lto on 12/05/15.
@@ -95,54 +94,54 @@ public class TestClient extends VimDriver {
     ArrayList<BaseNfvImage> nfvImages = new ArrayList<>();
     BaseNfvImage image = new BaseNfvImage();
     image.setExtId("ubuntu-14.04-server-cloudimg-amd64-disk1");
-//    image.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
-//    image.setContainerFormat("BARE");
-//    image.setDiskFormat("QCOW2");
-//    image.setMinRam(0);
-//    image.setMinCPU("1");
-//    image.setMinDiskSpace(0);
-//    image.setIsPublic(Math.random() >= 0.5);
+    //    image.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
+    //    image.setContainerFormat("BARE");
+    //    image.setDiskFormat("QCOW2");
+    //    image.setMinRam(0);
+    //    image.setMinCPU("1");
+    //    image.setMinDiskSpace(0);
+    //    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-//    image.setUpdated(new Date());
+    //    image.setUpdated(new Date());
     nfvImages.add(image);
 
     image = new BaseNfvImage();
     image.setExtId("ubuntu-16.04-server-cloudimg-amd64-disk1");
-//    image.setName("ubuntu-16.04-server-cloudimg-amd64-disk1");
-//    image.setContainerFormat("BARE");
-//    image.setDiskFormat("QCOW2");
-//    image.setMinRam(0);
-//    image.setMinCPU("1");
-//    image.setMinDiskSpace(0);
-//    image.setIsPublic(Math.random() >= 0.5);
+    //    image.setName("ubuntu-16.04-server-cloudimg-amd64-disk1");
+    //    image.setContainerFormat("BARE");
+    //    image.setDiskFormat("QCOW2");
+    //    image.setMinRam(0);
+    //    image.setMinCPU("1");
+    //    image.setMinDiskSpace(0);
+    //    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-//    image.setUpdated(new Date());
+    //    image.setUpdated(new Date());
     nfvImages.add(image);
 
     image = new BaseNfvImage();
     image.setExtId("ubuntu-14.04");
-//    image.setName("ubuntu-14.04");
-//    image.setContainerFormat("BARE");
-//    image.setDiskFormat("QCOW2");
-//    image.setMinRam(0);
-//    image.setMinCPU("1");
-//    image.setMinDiskSpace(0);
-//    image.setIsPublic(Math.random() >= 0.5);
+    //    image.setName("ubuntu-14.04");
+    //    image.setContainerFormat("BARE");
+    //    image.setDiskFormat("QCOW2");
+    //    image.setMinRam(0);
+    //    image.setMinCPU("1");
+    //    image.setMinDiskSpace(0);
+    //    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-//    image.setUpdated(new Date());
+    //    image.setUpdated(new Date());
     nfvImages.add(image);
 
     image = new BaseNfvImage();
     image.setExtId("ubuntu-16.04");
-//    image.setName("ubuntu-16.04");
-//    image.setContainerFormat("BARE");
-//    image.setDiskFormat("QCOW2");
-//    image.setMinRam(0);
-//    image.setMinCPU("1");
-//    image.setMinDiskSpace(0);
-//    image.setIsPublic(Math.random() >= 0.5);
+    //    image.setName("ubuntu-16.04");
+    //    image.setContainerFormat("BARE");
+    //    image.setDiskFormat("QCOW2");
+    //    image.setMinRam(0);
+    //    image.setMinCPU("1");
+    //    image.setMinDiskSpace(0);
+    //    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-//    image.setUpdated(new Date());
+    //    image.setUpdated(new Date());
     nfvImages.add(image);
 
     image = new BaseNfvImage();
@@ -161,15 +160,15 @@ public class TestClient extends VimDriver {
     for (int i = 1; i <= 20; i++) {
       BaseNfvImage img = new BaseNfvImage();
       img.setExtId("ext_id_" + i);
-//      img.setName("image_name_" + i);
-//      img.setContainerFormat("BARE");
-//      img.setDiskFormat("QCOW2");
-//      img.setMinRam(0);
-//      img.setMinCPU("1");
-//      img.setMinDiskSpace(0);
-//      img.setIsPublic(Math.random() >= 0.5);
+      //      img.setName("image_name_" + i);
+      //      img.setContainerFormat("BARE");
+      //      img.setDiskFormat("QCOW2");
+      //      img.setMinRam(0);
+      //      img.setMinCPU("1");
+      //      img.setMinDiskSpace(0);
+      //      img.setIsPublic(Math.random() >= 0.5);
       img.setCreated(new Date());
-//      img.setUpdated(new Date());
+      //      img.setUpdated(new Date());
       nfvImages.add(img);
     }
 
