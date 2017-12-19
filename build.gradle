@@ -72,7 +72,7 @@ mainClassName = 'org.openbaton.plugin.test.TestClient'
 
 
 dependencies {
-    compile 'org.openbaton:plugin-sdk:5.1.0'
+    compile 'org.openbaton:plugin-sdk:5.1.2-SNAPSHOT'
 
     compile 'org.slf4j:slf4j-api:1.7.12'
     compile 'org.slf4j:slf4j-simple:1.7.12'
