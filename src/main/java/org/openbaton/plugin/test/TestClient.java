@@ -43,7 +43,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Created by lto on 12/05/15.
  *
  * <p>This class represents a Vim Driver plugin. As vim driver, it must implement the interface
  * {@Link ClientInterfaces}. This is just an example that can be used to create a OpenBaton plugin.
@@ -231,6 +230,7 @@ public class TestClient extends VimDriver {
 
   @Override
   public BaseVimInstance refresh(BaseVimInstance vimInstance) throws VimDriverException {
+    log.info(String.format("Executing refresh on vim: %s", vimInstance.getName()));
     GenericVimInstance genericVimInstance = (GenericVimInstance) vimInstance;
 
     List<BaseNfvImage> newImages = listImages(vimInstance);
@@ -277,8 +277,9 @@ public class TestClient extends VimDriver {
       String s,
       Map<String, String> floatingIps,
       Set<Key> keys) {
+    log.info(String.format("Executing launch instance for %s on vim: %s", hostname, vimInstance.getName()));
     try {
-      Thread.sleep((long) (Math.random() * 3500));
+      Thread.sleep((int) (Math.random() * Long.parseLong(properties.getProperty("launch-instance-wait-random","10000"))) + Long.parseLong(properties.getProperty("launch-instance-wait","10000")));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
@@ -289,6 +290,7 @@ public class TestClient extends VimDriver {
 
   @Override
   public void deleteServerByIdAndWait(BaseVimInstance vimInstance, String id) {
+    log.info(String.format("Executing delete of %s on vim: %s", id, vimInstance.getName()));
     try {
       Thread.sleep((long) (Math.random() * 1500));
     } catch (InterruptedException e) {
@@ -298,6 +300,7 @@ public class TestClient extends VimDriver {
 
   @Override
   public BaseNetwork createNetwork(BaseVimInstance vimInstance, BaseNetwork network) {
+    log.info(String.format("Executing create network on vim: %s", vimInstance.getName()));
     return network;
   }
 
@@ -346,6 +349,7 @@ public class TestClient extends VimDriver {
   @Override
   public Subnet createSubnet(
       BaseVimInstance vimInstance, BaseNetwork createdNetwork, Subnet subnet) {
+    log.info(String.format("Executing create subnet on vim: %s", vimInstance.getName()));
     return subnet;
   }
 
