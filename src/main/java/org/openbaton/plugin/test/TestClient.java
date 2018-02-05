@@ -43,10 +43,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
- * <p>This class represents a Vim Driver plugin. As vim driver, it must implement the interface
- * {@Link ClientInterfaces}. This is just an example that can be used to create a OpenBaton plugin.
- * The basic concept is shared by all the plugins.
+ * This class represents a Vim Driver plugin. As vim driver, it must implement the interface {@Link
+ * ClientInterfaces}. This is just an example that can be used to create a OpenBaton plugin. The
+ * basic concept is shared by all the plugins.
  *
  * <p>The plugin class must be annotated as @Component (at least) and implement the specific
  * interface. There must be a configuration file in the classpath called plugin.conf.properties that
@@ -190,6 +189,12 @@ public class TestClient extends VimDriver {
   }
 
   @Override
+  public Server rebuildServer(BaseVimInstance vimInstance, String serverId, String imageId)
+      throws VimDriverException {
+    return createServer();
+  }
+
+  @Override
   public List<BaseNetwork> listNetworks(BaseVimInstance vimInstance) {
     ArrayList<BaseNetwork> networks = new ArrayList<>();
     for (int i = 0; i < 20; i++) networks.add(createNetwork("net_" + i, "id_" + i));
@@ -277,9 +282,16 @@ public class TestClient extends VimDriver {
       String s,
       Map<String, String> floatingIps,
       Set<Key> keys) {
-    log.info(String.format("Executing launch instance for %s on vim: %s", hostname, vimInstance.getName()));
+    log.info(
+        String.format(
+            "Executing launch instance for %s on vim: %s", hostname, vimInstance.getName()));
     try {
-      Thread.sleep((int) (Math.random() * Long.parseLong(properties.getProperty("launch-instance-wait-random","10000"))) + Long.parseLong(properties.getProperty("launch-instance-wait","10000")));
+      Thread.sleep(
+          (int)
+                  (Math.random()
+                      * Long.parseLong(
+                          properties.getProperty("launch-instance-wait-random", "10000")))
+              + Long.parseLong(properties.getProperty("launch-instance-wait", "10000")));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
