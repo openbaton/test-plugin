@@ -36,20 +36,24 @@ import org.openbaton.catalogue.nfvo.networks.Subnet;
 import org.openbaton.catalogue.nfvo.viminstances.BaseVimInstance;
 import org.openbaton.catalogue.nfvo.viminstances.GenericVimInstance;
 import org.openbaton.catalogue.security.Key;
-import org.openbaton.exceptions.VimDriverException;
 import org.openbaton.plugin.PluginStarter;
+import org.openbaton.vim.drivers.interfaces.ClientInterfaces;
 import org.openbaton.vim.drivers.interfaces.VimDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class represents a Vim Driver plugin. As vim driver, it must implement the interface {@Link
+ * This class represents a Vim Driver plugin. As vim driver, it must implement the interface {@link
  * ClientInterfaces}. This is just an example that can be used to create a OpenBaton plugin. The
  * basic concept is shared by all the plugins.
+ *
+ * <p>
  *
  * <p>The plugin class must be annotated as @Component (at least) and implement the specific
  * interface. There must be a configuration file in the classpath called plugin.conf.properties that
  * contains:
+ *
+ * <p>
  *
  * <p>*) sender-type = the type of the sender (default and unique for now: JMS) *) receiver-type =
  * the type of the receiver (default and unique for now: JMS) *) type = the type of the plugin
@@ -92,81 +96,33 @@ public class TestClient extends VimDriver {
     ArrayList<BaseNfvImage> nfvImages = new ArrayList<>();
     BaseNfvImage image = new BaseNfvImage();
     image.setExtId("ubuntu-14.04-server-cloudimg-amd64-disk1");
-    //    image.setName("ubuntu-14.04-server-cloudimg-amd64-disk1");
-    //    image.setContainerFormat("BARE");
-    //    image.setDiskFormat("QCOW2");
-    //    image.setMinRam(0);
-    //    image.setMinCPU("1");
-    //    image.setMinDiskSpace(0);
-    //    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-    //    image.setUpdated(new Date());
     nfvImages.add(image);
 
     image = new BaseNfvImage();
     image.setExtId("ubuntu-16.04-server-cloudimg-amd64-disk1");
-    //    image.setName("ubuntu-16.04-server-cloudimg-amd64-disk1");
-    //    image.setContainerFormat("BARE");
-    //    image.setDiskFormat("QCOW2");
-    //    image.setMinRam(0);
-    //    image.setMinCPU("1");
-    //    image.setMinDiskSpace(0);
-    //    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-    //    image.setUpdated(new Date());
     nfvImages.add(image);
 
     image = new BaseNfvImage();
     image.setExtId("ubuntu-14.04");
-    //    image.setName("ubuntu-14.04");
-    //    image.setContainerFormat("BARE");
-    //    image.setDiskFormat("QCOW2");
-    //    image.setMinRam(0);
-    //    image.setMinCPU("1");
-    //    image.setMinDiskSpace(0);
-    //    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-    //    image.setUpdated(new Date());
     nfvImages.add(image);
 
     image = new BaseNfvImage();
     image.setExtId("ubuntu-16.04");
-    //    image.setName("ubuntu-16.04");
-    //    image.setContainerFormat("BARE");
-    //    image.setDiskFormat("QCOW2");
-    //    image.setMinRam(0);
-    //    image.setMinCPU("1");
-    //    image.setMinDiskSpace(0);
-    //    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-    //    image.setUpdated(new Date());
     nfvImages.add(image);
 
     image = new BaseNfvImage();
     image.setExtId("Ubuntu-16.04");
-    //    image.setName("ubuntu-16.04");
-    //    image.setContainerFormat("BARE");
-    //    image.setDiskFormat("QCOW2");
-    //    image.setMinRam(0);
-    //    image.setMinCPU("1");
-    //    image.setMinDiskSpace(0);
-    //    image.setIsPublic(Math.random() >= 0.5);
     image.setCreated(new Date());
-    //    image.setUpdated(new Date());
     nfvImages.add(image);
 
     for (int i = 1; i <= 20; i++) {
       BaseNfvImage img = new BaseNfvImage();
       img.setExtId("ext_id_" + i);
-      //      img.setName("image_name_" + i);
-      //      img.setContainerFormat("BARE");
-      //      img.setDiskFormat("QCOW2");
-      //      img.setMinRam(0);
-      //      img.setMinCPU("1");
-      //      img.setMinDiskSpace(0);
-      //      img.setIsPublic(Math.random() >= 0.5);
       img.setCreated(new Date());
-      //      img.setUpdated(new Date());
       nfvImages.add(img);
     }
 
@@ -189,8 +145,7 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public Server rebuildServer(BaseVimInstance vimInstance, String serverId, String imageId)
-      throws VimDriverException {
+  public Server rebuildServer(BaseVimInstance vimInstance, String serverId, String imageId) {
     return createServer();
   }
 
@@ -234,7 +189,7 @@ public class TestClient extends VimDriver {
   }
 
   @Override
-  public BaseVimInstance refresh(BaseVimInstance vimInstance) throws VimDriverException {
+  public BaseVimInstance refresh(BaseVimInstance vimInstance) {
     log.info(String.format("Executing refresh on vim: %s", vimInstance.getName()));
     GenericVimInstance genericVimInstance = (GenericVimInstance) vimInstance;
 
@@ -286,18 +241,27 @@ public class TestClient extends VimDriver {
         String.format(
             "Executing launch instance for %s on vim: %s", hostname, vimInstance.getName()));
     try {
-      Thread.sleep(
+      long millis =
           (int)
                   (Math.random()
                       * Long.parseLong(
                           properties.getProperty("launch-instance-wait-random", "10000")))
-              + Long.parseLong(properties.getProperty("launch-instance-wait", "10000")));
+              + Long.parseLong(properties.getProperty("launch-instance-wait", "10000"));
+      log.debug(String.format("Executiong huge load of operation for %d seconds", millis / 1000));
+      Thread.sleep(millis);
+      randomFail();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
     Server server = createServer();
     log.debug("Created server: " + server);
     return server;
+  }
+
+  private void randomFail() {
+    double passFactor = Double.parseDouble(properties.getProperty("pass-factor", "0.9"));
+    log.debug(String.format("Pass factor is %f", passFactor));
+    if (Math.random() > passFactor) throw new RuntimeException("Fake exception in test plugin");
   }
 
   @Override
@@ -329,17 +293,17 @@ public class TestClient extends VimDriver {
 
   @Override
   public BaseNfvImage addImage(BaseVimInstance vimInstance, BaseNfvImage image, String image_url) {
-    return (BaseNfvImage) image;
+    return image;
   }
 
   @Override
   public BaseNfvImage updateImage(BaseVimInstance vimInstance, BaseNfvImage image) {
-    return (BaseNfvImage) image;
+    return image;
   }
 
   @Override
   public BaseNfvImage copyImage(BaseVimInstance vimInstance, BaseNfvImage image, byte[] imageFile) {
-    return (BaseNfvImage) image;
+    return image;
   }
 
   @Override
@@ -367,7 +331,7 @@ public class TestClient extends VimDriver {
 
   @Override
   public BaseNetwork updateNetwork(BaseVimInstance vimInstance, BaseNetwork network) {
-    return (BaseNetwork) network;
+    return network;
   }
 
   @Override
@@ -378,7 +342,7 @@ public class TestClient extends VimDriver {
 
   @Override
   public List<String> getSubnetsExtIds(BaseVimInstance vimInstance, String network_extId) {
-    return new ArrayList<String>();
+    return new ArrayList<>();
   }
 
   @Override
