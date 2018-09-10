@@ -56,7 +56,7 @@ project.ext {
     applicationVersionSnapshot = (!applicationRelease) ? ".${asUTC(applicationDate, 'yyyyMMdd')}.git${applicationRevision}" : ""
     applicationVersionFull = "${applicationVersion}${applicationVersionSnapshot}"
     //------------------------------------------------//
-    openbatonVersion = "6.0.0-RC1"
+    openbatonVersion = "6.0.0"
 }
 
 apply from: 'gradle/gradle/git.release.gradle'
